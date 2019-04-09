@@ -1,6 +1,7 @@
 #coding:gbk
 
-import sys,function
+import sys
+from PyOps import function
 
 if sys.argv[1] == "all":
     AllServerGroupName = function.GetAllServerConnectionInformation()
