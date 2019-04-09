@@ -18,8 +18,7 @@ if len(sys.argv) > 1:
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:
-            print ("退出")
-            pass
+            sys.exit()
     elif sys.argv[1] == "mt":
         try:
             AllAndSingle = str(input("请输入要检测的服务器名称或全部检测(all|groupname):"))
