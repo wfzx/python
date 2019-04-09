@@ -36,6 +36,7 @@ def UploadFileToServer(JH) :
                 PackName = "%s.tar.gz" % (Domain.split("/")[0])
                 FilePackCmd = "%s \" cd %s && tar zcf %s %s && mv %s %s\"" % (ROOT_User,Project_Path,PackName,Domain,PackName,Home_Path)
                 ConnectToTheServer(FilePackCmd)
+                print ("打包完成，开始下载")
                 sftp.get(Home_Path+PackName,Source_Path+PackName)
                 MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,PackName)
                 ConnectToTheServer(MobileNewTarCmdTwo)
@@ -104,8 +105,10 @@ def SystemVariables():
 #调用上传文件到服务器函数
 def ExecUploadFileToServer(cs):
     try:
-        if cs == "dl" or cs == "dlf":
+        if cs == "dl":
             print("开始下载")
+        elif cs == "dlf":
+            print ("开始打包")
         else:
             print("开始上传")
         UploadFileToServer(cs)
