@@ -17,7 +17,7 @@ def GetServerConnectionInformation(address) :
     Home_Path = conf.get(address,'home')
     MyPass = conf.get(address,'mysql_passwd')
 
-#上传文件到服务器
+#上传或下载文件
 def UploadFileToServer(JH) :
     scp = paramiko.Transport(IP, Port)
     scp.connect(username=User, password=Passwd)
@@ -54,7 +54,7 @@ def UploadFileToServer(JH) :
         ConnectToTheServer(MobileNewTarCmd)
     scp.close()
 
-#连接到服务器
+#连接到服务器进行执行命令
 def ConnectToTheServer(*params) :
     global outmsg
     ssh = paramiko.SSHClient()
@@ -94,6 +94,7 @@ def DefineVariablesBasedOnUserInput() :
     WRPath = "%srestart.sh" % (Source_Path)
     ReStart = "%s%srestart.sh" % (Project_Path, Domain)
 
+#默认必须的变量
 def SystemVariables():
     global  DATE, JAVA_MeM, ROOT_User,LogName
     LogName = "./logs/PyOps.log"
@@ -102,7 +103,7 @@ def SystemVariables():
     ROOT_User = "sudo su root -c "
 
 
-#调用上传文件到服务器函数
+#调用上传或下载文件函数
 def ExecUploadFileToServer(cs):
     try:
         if cs == "dl":
@@ -297,4 +298,5 @@ else:
     logging.close()
     print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|h5|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
     sys.exit()
+#正常执行后输出完毕
 print("任务完成")
