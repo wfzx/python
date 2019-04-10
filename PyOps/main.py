@@ -6,7 +6,7 @@ LogName = "./logs/PyOps.log"
 if len(sys.argv) > 1:
     if sys.argv[1] == "ud":
         try:
-            NumOne = str(input("请输入要操作的服务器名:"))
+            NumOne = str(input("请输入要操作的服务器组名:"))
             NumTwo = str(input("请输入要操作的类型(h5,java,mb,scp,dl,dlf):"))
         except KeyboardInterrupt:
             print ("退出")
