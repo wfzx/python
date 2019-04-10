@@ -33,7 +33,7 @@ def UploadFileToServer(JH) :
                 MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,Target_name)
                 ConnectToTheServer(MobileNewTarCmdTwo)
             elif JH == "dlf":
-                PackName = "%s.tar.gz" % (Domain.split("/")[0])
+                PackName = "%s_%s.tar.gz" % (Domain.split("/")[0],time.strftime("%Y%m%d%H%M"))
                 FilePackCmd = "%s \" cd %s && tar zcf %s %s && mv %s %s\"" % (ROOT_User,Project_Path,PackName,Domain,PackName,Home_Path)
                 ConnectToTheServer(FilePackCmd)
                 print ("打包完成，开始下载")
