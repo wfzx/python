@@ -74,7 +74,7 @@ def BackUpTheOriginalFile(DAPath,JH) :
     global BackLastCmd,HPath
     if JH == "h5":
         HPath = "%s%s_%s.tar.gz" % (DAPath, Domain.split("/")[0], DATE)
-        BackLastCmd = "%s\"cd %s && tar zcf %s_%s.tar.gz %s && if [ ! -f %s ];then mkdir -p %s && mv %s%s_%s.tar.gz %s;fi\"" % (ROOT_User,Project_Path, Domain.split("/")[0],DATE,Domain,HPath,DAPath, Project_Path,Domain.split("/")[0],DATE, DAPath)
+        BackLastCmd = "%s\"cd %s && tar zcf %s_%s.tar.gz %s && if [ ! -f %s ];then mkdir -p %s && mv %s%s_%s.tar.gz %s;else rm -rf %s_%s.tar.gz fi\"" % (ROOT_User,Project_Path, Domain.split("/")[0],DATE,Domain,HPath,DAPath, Project_Path,Domain.split("/")[0],DATE, DAPath,Domain.split("/")[0],DATE)
     else:
         BackLastCmd = "%s\"if [ ! -f %s%s ];then mkdir -p %s && mv %s%s;fi\"" % (ROOT_User, DAPath, Target_name, DAPath, LPath, DAPath)
 
@@ -114,8 +114,10 @@ def ExecUploadFileToServer(cs):
             print("开始上传")
         UploadFileToServer(cs)
         if cs == "dl" or cs == "dlf":
+            print()
             print("下载完成")
         else:
+            print()
             print("上传完成")
     except PermissionError:
         print("没有权限或不能上传文件夹")
@@ -181,8 +183,7 @@ elif sys.argv[-1] == "h5":
     if "zip" in Target_name:
         StartServiceCmd = "%s\" cd %s%s && rm -rf static index.html && unzip -o %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split(".")[0], Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain, Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain)
     else:
-        StartServiceCmd = "%s\" cd %s%s && rm -rf static index.html && tar zxf %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split(".tar")[0], Target_name.split(".tar")[0],Target_name.split(".tar")[0], Target_name.split(".tar")[0], Project_Path, Domain, Target_name.split(".tar")[0],Target_name.split(".tar")[0], Target_name.split(".tar")[0], Project_Path, Domain)
-
+        StartServiceCmd = "%s\" cd %s%s && tar zxf %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split("_")[0], Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain, Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain)
     ExecRelease()
 #获取用户传入的最后一个参数是否为mb
 elif sys.argv[-1] == "mb":
