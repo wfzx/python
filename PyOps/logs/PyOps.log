@@ -102,3 +102,14 @@
 201904111533 Exec Montior test
 201904111533 Exec Montior all
 201904111549 备份数据库 120.78.212.211
+201904111636 No Exec error []
+201904111638 No Exec error []
+201904111639 No Exec error []
+201904111641 No Exec error []
+201904111641 No Exec error ['udasd']
+201904111642 No Exec error ['cdsc']
+201904111646 No Exec error []
+201904111651 No Exec error []
+201904111651 No Exec error []
+201904111651 No Exec error []
+201904111652 Python.zip Upload python in 120.78.212.211

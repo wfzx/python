@@ -103,7 +103,7 @@ def SystemVariables():
     ROOT_User = "sudo su root -c "
 
 
-#调用上传或下载文件函数
+#调用上传或下载文件
 def ExecUploadAndDownloadFile(cs):
     try:
         if cs == "dl":
@@ -124,7 +124,7 @@ def ExecUploadAndDownloadFile(cs):
     except FileNotFoundError:
         print("文件或远程目录不存在")
 
-#发布函数
+#发布
 def ExecRelease():
     try:
         BackUpTheOriginalFile(DTPath, sys.argv[-1])
@@ -132,6 +132,14 @@ def ExecRelease():
         ConnectToTheServer(StartServiceCmd)
     except TimeoutError:
         print ("请检查网络连接是否良好")
+
+#执行获取服务器信息
+def ExecGetServerConnectionInformation(gname):
+    try:
+        GetServerConnectionInformation(gname)
+    except configparser.NoSectionError:
+        print(" No Such ", sys.argv[1], " Group\n")
+        sys.exit()
 
 #获取所有数据库列表
 def GetAllDBList():
@@ -141,7 +149,11 @@ def GetAllDBList():
 #调用windows弹窗
 def Message_Box(title,msg):
     import ctypes
+    from tkinter import Tk
+    root = Tk()
+    root.wm_attributes('-topmost', 1)
     ctypes.windll.user32.MessageBoxW(0,msg,title,0)
+
 
 #写入log
 def LogWrite(content):
@@ -153,81 +165,55 @@ def LogWrite(content):
     logging.write(content)
     logging.close()
 
-
+if len(sys.argv) > 1:
 #获取用户传入的最后一个参数是否为scp
-if sys.argv[-1] == "scp":
-    try:
-        GetServerConnectionInformation(sys.argv[1])
-    except configparser.NoSectionError:
-        print ("No Such ",sys.argv[1]," Group")
-        sys.exit()
-
-    try:
-        DefineVariablesBasedOnUserInput()
-        OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
-        LogWrite(OutFile)
-    except KeyboardInterrupt:
-        print ("退出")
-        sys.exit()
-    ExecUploadAndDownloadFile(sys.argv[-1])
-# 获取用户传入的最后一个参数是否为java
-elif sys.argv[-1] == "java":
-    try:
-        GetServerConnectionInformation(sys.argv[1])
-    except configparser.NoSectionError:
-        print ("No Such ",sys.argv[1]," Group")
-        sys.exit()
-
-    DefineVariablesBasedOnUserInput()
-    StartServiceCmd = "%s\"sed -i 's/zhuxiaoxuan/%s/g' %s && cd %s%s && sh restart.sh && chown -R www.www %s%s\"" % (ROOT_User,Target_name,ReStart, Project_Path, Domain, Project_Path, Domain)
-    ExecRelease()
-#获取用户传入的最后一个参数是否为hp
-elif sys.argv[-1] == "hp":
-    try:
-        GetServerConnectionInformation(sys.argv[1])
-    except configparser.NoSectionError:
-        print ("No Such ",sys.argv[1]," Group")
-        sys.exit()
-
-    DefineVariablesBasedOnUserInput()
-    if "zip" in Target_name:
-        StartServiceCmd = "%s\" cd %s%s && rm -rf static index.html && unzip -o %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split(".")[0], Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain, Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain)
-    else:
-        StartServiceCmd = "%s\" cd %s%s && tar zxf %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split("_")[0], Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain, Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain)
-    ExecRelease()
-#获取用户传入的最后一个参数是否为mb
-elif sys.argv[-1] == "mb":
-    try:
-        GetServerConnectionInformation(sys.argv[1])
-    except configparser.NoSectionError:
-        print ("No Such ",sys.argv[1]," Group")
-        sys.exit()
-
-    SystemVariables()
-    GetAllDBList()
-    for MD in outmsg.split( ):
-        global MyBackup_Path
-        if MD.decode().strip() in ('information_schema','mysql','performance_schema'):
-            continue
-        else:
-            MyBackup_Path = "%smysql/" % (Backup_Path)
-            DumpCmd = "mysqldump -u root -p%s %s > %s%s/%s_%s.sql" % (MyPass, MD.decode().strip(), MyBackup_Path, DATE, MD.decode().strip(), DATE)
-            StartInputSqlCmd = "%s\"if [ -d %s%s/ ];then %s;else mkdir -p %s%s/ && %s;fi\"" % (ROOT_User, MyBackup_Path, DATE, DumpCmd, MyBackup_Path, DATE, DumpCmd)
-            TarPackCmd = "%s\"cd %s && tar zcf %s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
-            print ("开始备份")
-            ConnectToTheServer(StartInputSqlCmd,TarPackCmd)
-    print ("数据库已经备份在",MyBackup_Path,DATE,".tar.gz")
-    OutFile = "\n%s 备份数据库 %s" % (time.strftime("%Y%m%d%H%M"), IP)
-    LogWrite(OutFile)
-#从服务器上下载文件到本地
-elif len(sys.argv) > 1:
-    #程序交互式下载
-    if sys.argv[-1] == "dl":
+    if sys.argv[-1] == "scp":
+        ExecGetServerConnectionInformation(sys.argv[1])
         try:
-            GetServerConnectionInformation(sys.argv[1])
-        except configparser.NoSectionError:
-            print("No Such ", sys.argv[1], " Group")
+            DefineVariablesBasedOnUserInput()
+            OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
+            LogWrite(OutFile)
+        except KeyboardInterrupt:
+            print ("退出")
             sys.exit()
+        ExecUploadAndDownloadFile(sys.argv[-1])
+    # 获取用户传入的最后一个参数是否为java
+    elif sys.argv[-1] == "java":
+        ExecGetServerConnectionInformation(sys.argv[1])
+        DefineVariablesBasedOnUserInput()
+        StartServiceCmd = "%s\"sed -i 's/zhuxiaoxuan/%s/g' %s && cd %s%s && sh restart.sh && chown -R www.www %s%s\"" % (ROOT_User,Target_name,ReStart, Project_Path, Domain, Project_Path, Domain)
+        ExecRelease()
+    #获取用户传入的最后一个参数是否为hp
+    elif sys.argv[-1] == "hp":
+        ExecGetServerConnectionInformation(sys.argv[1])
+        DefineVariablesBasedOnUserInput()
+        if "zip" in Target_name:
+            StartServiceCmd = "%s\" cd %s%s && rm -rf static index.html && unzip -o %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split(".")[0], Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain, Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain)
+        else:
+            StartServiceCmd = "%s\" cd %s%s && tar zxf %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split("_")[0], Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain, Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain)
+        ExecRelease()
+    #获取用户传入的最后一个参数是否为mb
+    elif sys.argv[-1] == "mb":
+        ExecGetServerConnectionInformation(sys.argv[1])
+        SystemVariables()
+        GetAllDBList()
+        for MD in outmsg.split( ):
+            global MyBackup_Path
+            if MD.decode().strip() in ('information_schema','mysql','performance_schema'):
+                continue
+            else:
+                MyBackup_Path = "%smysql/" % (Backup_Path)
+                DumpCmd = "mysqldump -u root -p%s %s > %s%s/%s_%s.sql" % (MyPass, MD.decode().strip(), MyBackup_Path, DATE, MD.decode().strip(), DATE)
+                StartInputSqlCmd = "%s\"if [ -d %s%s/ ];then %s;else mkdir -p %s%s/ && %s;fi\"" % (ROOT_User, MyBackup_Path, DATE, DumpCmd, MyBackup_Path, DATE, DumpCmd)
+                TarPackCmd = "%s\"cd %s && tar zcf %s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
+                print ("开始备份")
+                ConnectToTheServer(StartInputSqlCmd,TarPackCmd)
+        print ("数据库已经备份在",MyBackup_Path,DATE,".tar.gz")
+        OutFile = "\n%s 备份数据库 %s" % (time.strftime("%Y%m%d%H%M"), IP)
+        LogWrite(OutFile)
+    #程序交互式下载
+    elif sys.argv[-1] == "dl":
+        ExecGetServerConnectionInformation(sys.argv[1])
         try:
             DefineVariablesBasedOnUserInput()
             OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
@@ -238,11 +224,7 @@ elif len(sys.argv) > 1:
         ExecUploadAndDownloadFile(sys.argv[-1])
     #输入目标目录文件名称打包下载
     elif sys.argv[-1] == "dlf":
-        try:
-            GetServerConnectionInformation(sys.argv[1])
-        except configparser.NoSectionError:
-            print("No Such ", sys.argv[1], " Group")
-            sys.exit()
+        ExecGetServerConnectionInformation(sys.argv[1])
         try:
             DefineVariablesBasedOnUserInput()
             OutFile = "\n%s Download %s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0], IP)
@@ -253,11 +235,7 @@ elif len(sys.argv) > 1:
         ExecUploadAndDownloadFile(sys.argv[-1])
     #命令行式下载
     elif sys.argv[1] == "dl":
-        try:
-            GetServerConnectionInformation(sys.argv[2])
-        except configparser.NoSectionError:
-            print ("No Such ",sys.argv[1]," Group")
-            sys.exit()
+        ExecGetServerConnectionInformation(sys.argv[2])
         SystemVariables()
         DTPath = " %s%s/" % (Backup_Path, DATE)
         Domain = "%s/" % (sys.argv[3])
@@ -270,17 +248,20 @@ elif len(sys.argv) > 1:
         LogWrite(OutFile)
         ExecUploadAndDownloadFile(sys.argv[1])
 #如果都不等于就退出
-else:
-    try:
-        GetServerConnectionInformation(sys.argv[1])
-    except configparser.NoSectionError:
-        print (" No Such ",sys.argv[1]," Group\n")
+    else:
+        ExecGetServerConnectionInformation(sys.argv[1])
+        SystemVariables()
+        OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
+        LogWrite(OutFile)
+        print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
         sys.exit()
+else:
     SystemVariables()
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
     LogWrite(OutFile)
     print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
     sys.exit()
+
 #正常执行后输出完毕
 if os.name == "nt":
     Message_Box('PyOps',"任务完成")

@@ -3,6 +3,16 @@
 import os,sys,time
 
 LogName = "./logs/PyOps.log"
+
+def LogWrite(content):
+    try:
+        logging = open(LogName, "a")
+    except FileNotFoundError:
+        os.mkdir("./logs/")
+        logging = open(LogName, "a")
+    logging.write(content)
+    logging.close()
+
 if len(sys.argv) > 1:
     if sys.argv[1] == "ud":
         try:
@@ -29,14 +39,8 @@ if len(sys.argv) > 1:
             ExecMonitor = "python Monitor.py %s" % (AllAndSingle)
         else:
             ExecMonitor = "python3 Monitor.py %s" % (AllAndSingle)
-        try:
-            logging = open(LogName, "a")
-        except FileNotFoundError:
-            os.mkdir("./logs/")
-            logging = open(LogName, "a")
-        OutFile = "\n%s Exec Montior %s" % (time.strftime("%Y%m%d%H%M"),AllAndSingle)
-        logging.write(OutFile)
-        logging.close()
+        OutFile = "\n%s Exec Montior %s" % (time.strftime("%Y%m%d%H%M"), AllAndSingle)
+        LogWrite(OutFile)
         os.system(ExecMonitor)
     elif sys.argv[1] == "dl":
         ServerName = sys.argv[2]
@@ -52,13 +56,12 @@ if len(sys.argv) > 1:
         except KeyboardInterrupt:
             pass
     else:
-        try:
-            logging = open(LogName, "a")
-        except FileNotFoundError:
-            os.mkdir("./logs/")
-            logging = open(LogName, "a")
         OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
-        logging.write(OutFile)
-        logging.close()
+        LogWrite(OutFile)
         print(" Usage:\n","    python ",sys.argv[0]," <ud|mt>\n\n","No such option: ",sys.argv[1:])
         sys.exit()
+else:
+    OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
+    LogWrite(OutFile)
+    print(" Usage:\n", "    python ", sys.argv[0], " <ud|mt>\n\n", "No such option: ", sys.argv[1:])
+    sys.exit()
