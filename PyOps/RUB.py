@@ -5,7 +5,7 @@ import paramiko,sys,configparser,time,os
 #获取服务器连接信息
 def GetServerConnectionInformation(address) :
     conf = configparser.ConfigParser()
-    conf.read("./conf/wfl.conf")
+    conf.read("./conf/sdgroup.conf")
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path
     Source_Path = conf.get("source",'source_path')
     IP = conf.get(address, 'ip')
@@ -18,12 +18,12 @@ def GetServerConnectionInformation(address) :
     MyPass = conf.get(address,'mysql_passwd')
 
 #上传或下载文件
-def UploadFileToServer(JH) :
+def UploadAndDownloadFile(JH) :
     scp = paramiko.Transport(IP, Port)
     scp.connect(username=User, password=Passwd)
     sftp = paramiko.SFTPClient.from_transport(scp)
     if JH != "scp":
-        if JH != "h5":
+        if JH != "hp":
             if JH == "dl":
                 MobileNewTarCmd = "%s \"cp %s%s%s %s%s\"" % (ROOT_User, Project_Path, Domain,Target_name,Home_Path, Target_name)
                 ConnectToTheServer(MobileNewTarCmd)
@@ -72,7 +72,7 @@ def ConnectToTheServer(*params) :
 #备份原始文件
 def BackUpTheOriginalFile(DAPath,JH) :
     global BackLastCmd,HPath
-    if JH == "h5":
+    if JH == "hp":
         HPath = "%s%s_%s.tar.gz" % (DAPath, Domain.split("/")[0], DATE)
         BackLastCmd = "%s\"cd %s && tar zcf %s_%s.tar.gz %s && if [ ! -f %s ];then mkdir -p %s && mv %s%s_%s.tar.gz %s;else rm -rf %s_%s.tar.gz fi\"" % (ROOT_User,Project_Path, Domain.split("/")[0],DATE,Domain,HPath,DAPath, Project_Path,Domain.split("/")[0],DATE, DAPath,Domain.split("/")[0],DATE)
     else:
@@ -104,7 +104,7 @@ def SystemVariables():
 
 
 #调用上传或下载文件函数
-def ExecUploadFileToServer(cs):
+def ExecUploadAndDownloadFile(cs):
     try:
         if cs == "dl":
             print("开始下载")
@@ -112,7 +112,7 @@ def ExecUploadFileToServer(cs):
             print ("开始打包")
         else:
             print("开始上传")
-        UploadFileToServer(cs)
+        UploadAndDownloadFile(cs)
         if cs == "dl" or cs == "dlf":
             print()
             print("下载完成")
@@ -128,7 +128,7 @@ def ExecUploadFileToServer(cs):
 def ExecRelease():
     try:
         BackUpTheOriginalFile(DTPath, sys.argv[-1])
-        ExecUploadFileToServer(sys.argv[-1])
+        ExecUploadAndDownloadFile(sys.argv[-1])
         ConnectToTheServer(StartServiceCmd)
     except TimeoutError:
         print ("请检查网络连接是否良好")
@@ -159,7 +159,7 @@ if sys.argv[-1] == "scp":
     except KeyboardInterrupt:
         print ("退出")
         sys.exit()
-    ExecUploadFileToServer(sys.argv[-1])
+    ExecUploadAndDownloadFile(sys.argv[-1])
 # 获取用户传入的最后一个参数是否为java
 elif sys.argv[-1] == "java":
     try:
@@ -171,8 +171,8 @@ elif sys.argv[-1] == "java":
     DefineVariablesBasedOnUserInput()
     StartServiceCmd = "%s\"sed -i 's/zhuxiaoxuan/%s/g' %s && cd %s%s && sh restart.sh && chown -R www.www %s%s\"" % (ROOT_User,Target_name,ReStart, Project_Path, Domain, Project_Path, Domain)
     ExecRelease()
-#获取用户传入的最后一个参数是否为h5
-elif sys.argv[-1] == "h5":
+#获取用户传入的最后一个参数是否为hp
+elif sys.argv[-1] == "hp":
     try:
         GetServerConnectionInformation(sys.argv[1])
     except configparser.NoSectionError:
@@ -236,7 +236,7 @@ elif len(sys.argv) > 1:
         except KeyboardInterrupt:
             print("退出")
             sys.exit()
-        ExecUploadFileToServer(sys.argv[-1])
+        ExecUploadAndDownloadFile(sys.argv[-1])
     #输入目标目录文件名称打包下载
     elif sys.argv[-1] == "dlf":
         try:
@@ -257,7 +257,7 @@ elif len(sys.argv) > 1:
         except KeyboardInterrupt:
             print("退出")
             sys.exit()
-        ExecUploadFileToServer(sys.argv[-1])
+        ExecUploadAndDownloadFile(sys.argv[-1])
     #命令行式下载
     elif sys.argv[1] == "dl":
         try:
@@ -281,7 +281,7 @@ elif len(sys.argv) > 1:
         OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
         logging.write(OutFile)
         logging.close()
-        ExecUploadFileToServer(sys.argv[1])
+        ExecUploadAndDownloadFile(sys.argv[1])
 #如果都不等于就退出
 else:
     try:
@@ -297,7 +297,7 @@ else:
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
     logging.write(OutFile)
     logging.close()
-    print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|h5|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
+    print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
     sys.exit()
 #正常执行后输出完毕
 print("任务完成")

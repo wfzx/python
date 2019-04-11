@@ -1,5 +1,21 @@
 使用本项目前请安装python3.7以上版本，请安装依赖模块paramiko和安装cryptography==2.4.2,然后使用install_agent.sh脚本安装agent进程
 
+在python的安装目录找到sftp_client.py文件找到_transfer_with_callback函数替换为以下内容可实现上传下载的进度百分比，也可以使用pack下面的直接替换即可
+
+    def _transfer_with_callback(self, reader, writer, file_size, callback):
+        size = 0
+        while True:
+            data = reader.read(32768)
+            print ("已完成:%.f%%" % (size / file_size * 100),end='\r')
+            writer.write(data)
+            size += len(data)
+            if len(data) == 0:
+                break
+            if callback is not None:
+                callback(size, file_size)
+        return size
+以上操作也可以执行或参考install.sh来完成
+
 主入口为main.py可按照提示进行操作
 
 项目每次执行都会记录发布信息到logs/*.log中
@@ -21,7 +37,7 @@ RUB.py
 命令行最后一位：
 1.命令行最后一位参数为scp则会上传文件到指定的目录不做其他操作
 2.命令行最后一位参数为java则会发布java项目
-3.命令行最后一位参数为h5则会发布h5项目
+3.命令行最后一位参数为hp则会发布h5或php项目
 4.命令行最后一位参数为mb则会备份当前机器的所有数据库
 5.命令行最后一位参数为dl则会将目标服务器上的指定文件下载到本地的指定路径
 6.命令行第一位参数为dl将会执行非交互式运行参数要求为；正确的操作方法应该调用mian.py来执行此步操作

@@ -12,7 +12,7 @@ else
 fi
 if [ ${Python_version} == 2 ];then
 	sudo yum -y install zlib zlib-devel bzip2 bzip2-devel ncurses ncurses-devel readline readline-devel openssl openssl-devel openssl-static xz lzma xz-devel sqlite sqlite-devel gdbm gdbm-devel tk tk-devel libffi libffi-devel
-	#cd ${Pack_Path} && tar xf ${Python3_Name} && cd Python-* && sudo ./configure --prefix=/usr/local/python --enable-optimizations && sudo make && sudo make install
+	cd ${Pack_Path} && tar xf ${Python3_Name} && cd Python-* && sudo ./configure --prefix=/usr/local/python --enable-optimizations && sudo make && sudo make install
 	cd /usr/bin && sudo ln -s /usr/local/python/bin/* ./
 	sudo pip3 install --upgrade pip
 	sudo pip3 install psutil
@@ -20,10 +20,10 @@ fi
 which python3
 if [ $? != 0 ];then
 	sudo yum -y install zlib zlib-devel bzip2 bzip2-devel ncurses ncurses-devel readline readline-devel openssl openssl-devel openssl-static xz lzma xz-devel sqlite sqlite-devel gdbm gdbm-devel tk tk-devel libffi libffi-devel
-	#cd ${Pack_Path} && tar xf ${Python3_Name} && cd Python-* && sudo ./configure --prefix=/usr/local/python --enable-optimizations && sudo make && sudo make install
+	cd ${Pack_Path} && tar xf ${Python3_Name} && cd Python-* && sudo ./configure --prefix=/usr/local/python --enable-optimizations && sudo make && sudo make install
 	cd /usr/bin && sudo ln -s /usr/local/python/bin/* ./
 	sudo pip3 install --upgrade pip
 	sudo pip3 install psutil
 fi
-cd ${Home_Path} && mv agent.py ${Agent_path}
-rm -rf python_version
+cd ${Home_Path} && sudo mv agent.py ${Agent_path}
+sudo rm -rf python_version
