@@ -138,6 +138,11 @@ def GetAllDBList():
     MyDbList = "%s\"mysql -u root -p%s -e 'show databases'|grep -v Database\"" % (ROOT_User,MyPass)
     ConnectToTheServer(MyDbList)
 
+#调用windows弹窗
+def Message_Box(title,msg):
+    import ctypes
+    ctypes.windll.user32.MessageBoxW(0,msg,title,0)
+
 #获取用户传入的最后一个参数是否为scp
 if sys.argv[-1] == "scp":
     try:
@@ -300,4 +305,7 @@ else:
     print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
     sys.exit()
 #正常执行后输出完毕
-print("任务完成")
+if os.name == "nt":
+    Message_Box('PyOps',"任务完成")
+else:
+    print("任务完成")
