@@ -214,6 +214,7 @@ elif sys.argv[-1] == "mb":
             DumpCmd = "mysqldump -u root -p%s %s > %s%s/%s_%s.sql" % (MyPass, MD.decode().strip(), MyBackup_Path, DATE, MD.decode().strip(), DATE)
             StartInputSqlCmd = "%s\"if [ -d %s%s/ ];then %s;else mkdir -p %s%s/ && %s;fi\"" % (ROOT_User, MyBackup_Path, DATE, DumpCmd, MyBackup_Path, DATE, DumpCmd)
             TarPackCmd = "%s\"cd %s && tar zcf %s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
+            print ("开始备份")
             ConnectToTheServer(StartInputSqlCmd,TarPackCmd)
     print ("数据库已经备份在",MyBackup_Path,DATE,".tar.gz")
     OutFile = "\n%s 备份数据库 %s" % (time.strftime("%Y%m%d%H%M"), IP)
