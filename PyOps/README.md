@@ -13,7 +13,10 @@
                 break
             if callback is not None:
                 callback(size, file_size)
+        print ()
         return size
+
+
 以上操作也可以执行或参考install.sh来完成
 
 主入口为main.py可按照提示进行操作
