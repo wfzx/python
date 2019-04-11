@@ -42,6 +42,7 @@ def UploadAndDownloadFile(JH) :
                 ConnectToTheServer(MobileNewTarCmdTwo)
             else:
                 try:
+                    print ("restart.sh")
                     sftp.put(WRPath, Home_Path+"restart.sh")
                 except FileNotFoundError:
                     print("restart.sh文件不存在,退出执行")
@@ -49,6 +50,7 @@ def UploadAndDownloadFile(JH) :
                 MobileNewReCmd = "%s \"mv %srestart.sh %s%s\"" % (ROOT_User, Home_Path,Project_Path, Domain)
                 ConnectToTheServer(MobileNewReCmd)
     if JH != "dl" and JH != "dlf":
+        print (Target_name)
         sftp.put(WPath, Home_Path+Target_name)
         MobileNewTarCmd = "%s \"mv %s%s %s%s\"" % (ROOT_User,Home_Path, Target_name, Project_Path, Domain)
         ConnectToTheServer(MobileNewTarCmd)
@@ -114,10 +116,8 @@ def ExecUploadAndDownloadFile(cs):
             print("开始上传")
         UploadAndDownloadFile(cs)
         if cs == "dl" or cs == "dlf":
-            print()
             print("下载完成")
         else:
-            print()
             print("上传完成")
     except PermissionError:
         print("没有权限或不能上传文件夹")
@@ -149,10 +149,8 @@ def GetAllDBList():
 #调用windows弹窗
 def Message_Box(title,msg):
     import ctypes
-    from tkinter import Tk
-    root = Tk()
-    root.wm_attributes('-topmost', 1)
     ctypes.windll.user32.MessageBoxW(0,msg,title,0)
+
 
 
 #写入log

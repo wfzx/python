@@ -684,6 +684,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
                 break
             if callback is not None:
                 callback(size, file_size)
+        print ()
         return size
 
     def putfo(self, fl, remotepath, file_size=0, callback=None, confirm=True):
