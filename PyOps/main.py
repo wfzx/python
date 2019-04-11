@@ -13,6 +13,15 @@ def LogWrite(content):
     logging.write(content)
     logging.close()
 
+def Message_Box(title,msg,status):
+    from tkinter import messagebox
+    if status == "info":
+        messagebox.showinfo(title,msg)
+    elif status == "warning":
+        messagebox.showwarning(title,msg)
+    elif status == "error":
+        messagebox.showerror(title,msg)
+
 if len(sys.argv) > 1:
     if sys.argv[1] == "ud":
         try:
@@ -58,10 +67,12 @@ if len(sys.argv) > 1:
     else:
         OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
         LogWrite(OutFile)
-        print(" Usage:\n","    python ",sys.argv[0]," <ud|mt>\n\n","No such option: ",sys.argv[1:])
+        Outsg = "Usage:\n    python %s  <ud|mt>\n\n No such option: %s" % (sys.argv[0], sys.argv[1:])
+        Message_Box('PyOps', Outsg, 'warning')
         sys.exit()
 else:
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
     LogWrite(OutFile)
-    print(" Usage:\n", "    python ", sys.argv[0], " <ud|mt>\n\n", "No such option: ", sys.argv[1:])
+    Outsg = "Usage:\n    python %s  <ud|mt>\n\n No such option: %s" % (sys.argv[0], sys.argv[1:])
+    Message_Box('PyOps', Outsg, 'warning')
     sys.exit()

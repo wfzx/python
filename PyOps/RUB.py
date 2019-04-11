@@ -17,6 +17,16 @@ def GetServerConnectionInformation(address) :
     Home_Path = conf.get(address,'home')
     MyPass = conf.get(address,'mysql_passwd')
 
+#调用windows弹窗
+def Message_Box(title,msg,status):
+    from tkinter import messagebox
+    if status == "info":
+        messagebox.showinfo(title,msg)
+    elif status == "warning":
+        messagebox.showwarning(title,msg)
+    elif status == "error":
+        messagebox.showerror(title,msg)
+
 #上传或下载文件
 def UploadAndDownloadFile(JH) :
     scp = paramiko.Transport(IP, Port)
@@ -138,20 +148,15 @@ def ExecGetServerConnectionInformation(gname):
     try:
         GetServerConnectionInformation(gname)
     except configparser.NoSectionError:
-        print(" No Such ", sys.argv[1], " Group\n")
+        if os.name == "nt":
+            Outsg = " No Such %s  Group\n" % (sys.argv[1])
+            Message_Box('PyOps', Outsg,"warning")
         sys.exit()
 
 #获取所有数据库列表
 def GetAllDBList():
     MyDbList = "%s\"mysql -u root -p%s -e 'show databases'|grep -v Database\"" % (ROOT_User,MyPass)
     ConnectToTheServer(MyDbList)
-
-#调用windows弹窗
-def Message_Box(title,msg):
-    import ctypes
-    ctypes.windll.user32.MessageBoxW(0,msg,title,0)
-
-
 
 #写入log
 def LogWrite(content):
@@ -251,17 +256,19 @@ if len(sys.argv) > 1:
         SystemVariables()
         OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
         LogWrite(OutFile)
-        print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
+        Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0], sys.argv[2])
+        Message_Box('PyOps', Outsg, 'warning')
         sys.exit()
 else:
     SystemVariables()
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
     LogWrite(OutFile)
-    print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
+    Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0],sys.argv[2])
+    Message_Box('PyOps',Outsg,'warning')
     sys.exit()
 
 #正常执行后输出完毕
 if os.name == "nt":
-    Message_Box('PyOps',"任务完成")
+    Message_Box('PyOps',"任务完成","info")
 else:
     print("任务完成")
