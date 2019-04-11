@@ -16,8 +16,17 @@ def Install_Python() {
 	cd /usr/bin && sudo ln -s /usr/local/python/bin/* ./
 	sudo pip3 install --upgrade pip
 	sudo pip3 install paramiko
+	if [ $? != 0 ];then
+	    sudo pip3 install paramiko -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+	fi
     sudo pip3 install cryptography==2.4.2
+    if [ $? != 0 ];then
+	    sudo pip3 install cryptography==2.4.2 -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+	fi
 	sudo pip3 install psutil
+    if [ $? != 0 ];then
+	    sudo pip3 install psutil -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+	fi
 	sftp_client=`sudo find / -name sftp_client.py`
 	if [ $? = 0 ];then
 	    for i in ${sftp_client}
