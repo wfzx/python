@@ -143,6 +143,17 @@ def Message_Box(title,msg):
     import ctypes
     ctypes.windll.user32.MessageBoxW(0,msg,title,0)
 
+#写入log
+def LogWrite(content):
+    try:
+        logging = open(LogName, "a")
+    except FileNotFoundError:
+        os.mkdir("./logs/")
+        logging = open(LogName, "a")
+    logging.write(content)
+    logging.close()
+
+
 #获取用户传入的最后一个参数是否为scp
 if sys.argv[-1] == "scp":
     try:
@@ -153,14 +164,8 @@ if sys.argv[-1] == "scp":
 
     try:
         DefineVariablesBasedOnUserInput()
-        try:
-            logging = open(LogName, "a")
-        except FileNotFoundError:
-            os.mkdir("./logs/")
-            logging = open(LogName, "a")
-        OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d%H%M"),Target_name,Domain.split("/")[0],IP)
-        logging.write(OutFile)
-        logging.close()
+        OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
+        LogWrite(OutFile)
     except KeyboardInterrupt:
         print ("退出")
         sys.exit()
@@ -211,14 +216,8 @@ elif sys.argv[-1] == "mb":
             TarPackCmd = "%s\"cd %s && tar zcf %s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
             ConnectToTheServer(StartInputSqlCmd,TarPackCmd)
     print ("数据库已经备份在",MyBackup_Path,DATE,".tar.gz")
-    try:
-        logging = open(LogName, "a")
-    except FileNotFoundError:
-        os.mkdir("./logs/")
-        logging = open(LogName, "a")
     OutFile = "\n%s 备份数据库 %s" % (time.strftime("%Y%m%d%H%M"), IP)
-    logging.write(OutFile)
-    logging.close()
+    LogWrite(OutFile)
 #从服务器上下载文件到本地
 elif len(sys.argv) > 1:
     #程序交互式下载
@@ -230,14 +229,8 @@ elif len(sys.argv) > 1:
             sys.exit()
         try:
             DefineVariablesBasedOnUserInput()
-            try:
-                logging = open(LogName, "a")
-            except FileNotFoundError:
-                os.mkdir("./logs/")
-                logging = open(LogName, "a")
             OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
-            logging.write(OutFile)
-            logging.close()
+            LogWrite(OutFile)
         except KeyboardInterrupt:
             print("退出")
             sys.exit()
@@ -251,14 +244,8 @@ elif len(sys.argv) > 1:
             sys.exit()
         try:
             DefineVariablesBasedOnUserInput()
-            try:
-                logging = open(LogName, "a")
-            except FileNotFoundError:
-                os.mkdir("./logs/")
-                logging = open(LogName, "a")
-            OutFile = "\n%s  Download %s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0], IP)
-            logging.write(OutFile)
-            logging.close()
+            OutFile = "\n%s Download %s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0], IP)
+            LogWrite(OutFile)
         except KeyboardInterrupt:
             print("退出")
             sys.exit()
@@ -278,14 +265,8 @@ elif len(sys.argv) > 1:
         Target_name = sys.argv[5]
         LPath = "%s%s%s" % (Project_Path, Domain, Target_name)
         ReStart = "%s%srestart.sh" % (Project_Path, Domain)
-        try:
-            logging = open(LogName, "a")
-        except FileNotFoundError:
-            os.mkdir("./logs/")
-            logging = open(LogName, "a")
         OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
-        logging.write(OutFile)
-        logging.close()
+        LogWrite(OutFile)
         ExecUploadAndDownloadFile(sys.argv[1])
 #如果都不等于就退出
 else:
@@ -293,15 +274,10 @@ else:
         GetServerConnectionInformation(sys.argv[1])
     except configparser.NoSectionError:
         print (" No Such ",sys.argv[1]," Group\n")
+        sys.exit()
     SystemVariables()
-    try:
-        logging = open(LogName, "a")
-    except FileNotFoundError:
-        os.mkdir("./logs/")
-        logging = open(LogName, "a")
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
-    logging.write(OutFile)
-    logging.close()
+    LogWrite(OutFile)
     print(" Usage:\n","    python ",sys.argv[0]," <groupID> <java|hp|mb|scp|dl|dlf>\n\n","No such option: ",sys.argv[2:])
     sys.exit()
 #正常执行后输出完毕
