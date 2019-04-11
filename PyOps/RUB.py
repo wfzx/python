@@ -76,7 +76,7 @@ def BackUpTheOriginalFile(DAPath,JH) :
         HPath = "%s%s_%s.tar.gz" % (DAPath, Domain.split("/")[0], DATE)
         BackLastCmd = "%s\"cd %s && tar zcf %s_%s.tar.gz %s && if [ ! -f %s ];then mkdir -p %s && mv %s%s_%s.tar.gz %s;else rm -rf %s_%s.tar.gz fi\"" % (ROOT_User,Project_Path, Domain.split("/")[0],DATE,Domain,HPath,DAPath, Project_Path,Domain.split("/")[0],DATE, DAPath,Domain.split("/")[0],DATE)
     else:
-        BackLastCmd = "%s\"if [ ! -f %s%s ];then mkdir -p %s && mv %s%s;fi\"" % (ROOT_User, DAPath, Target_name, DAPath, LPath, DAPath)
+        BackLastCmd = "%s\"if [ ! -f %s%s ];then mkdir -p %s && mv %s %s;fi\"" % (ROOT_User, DAPath, Target_name, DAPath, LPath, DAPath)
 
     DeleTarCmd = "%s\"rm -rf %s\"" % (ROOT_User,LPath)
     ConnectToTheServer(BackLastCmd,DeleTarCmd)
