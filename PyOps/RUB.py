@@ -39,7 +39,12 @@ def UploadAndDownloadFile(JH) :
                 ConnectToTheServer(MobileNewTarCmd)
                 if os.path.isdir(WPath.split(Target_name)[0]) == False:
                     os.makedirs(WPath.split(Target_name)[0])
-                sftp.get(Home_Path+Target_name,WPath)
+                try:
+                    sftp.get(Home_Path+Target_name,WPath)
+                except ZeroDivisionError:
+                    print ("文件小于等于0KB,请检查文件")
+                    scp.close()
+                    sys.exit()
                 MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,Target_name)
                 ConnectToTheServer(MobileNewTarCmdTwo)
             elif JH == "dlf":
@@ -47,7 +52,12 @@ def UploadAndDownloadFile(JH) :
                 FilePackCmd = "%s \" cd %s && tar zcf %s %s && mv %s %s\"" % (ROOT_User,Project_Path,PackName,Domain,PackName,Home_Path)
                 ConnectToTheServer(FilePackCmd)
                 print ("打包完成，开始下载")
-                sftp.get(Home_Path+PackName,Source_Path+PackName)
+                try:
+                    sftp.get(Home_Path+PackName,Source_Path+PackName)
+                except ZeroDivisionError:
+                    print ("文件小于等于0KB,请检查文件")
+                    scp.close()
+                    sys.exit()
                 MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,PackName)
                 ConnectToTheServer(MobileNewTarCmdTwo)
             else:
@@ -56,12 +66,22 @@ def UploadAndDownloadFile(JH) :
                     sftp.put(WRPath, Home_Path+"restart.sh")
                 except FileNotFoundError:
                     print("restart.sh文件不存在,退出执行")
+                    scp.close()
+                    sys.exit()
+                except ZeroDivisionError:
+                    print ("文件小于等于0KB,请检查文件")
+                    scp.close()
                     sys.exit()
                 MobileNewReCmd = "%s \"mv %srestart.sh %s%s\"" % (ROOT_User, Home_Path,Project_Path, Domain)
                 ConnectToTheServer(MobileNewReCmd)
     if JH != "dl" and JH != "dlf":
         print (Target_name)
-        sftp.put(WPath, Home_Path+Target_name)
+        try:
+            sftp.put(WPath, Home_Path+Target_name)
+        except ZeroDivisionError:
+            print ("文件小于等于0KB,请检查文件")
+            scp.close()
+            sys.exit()
         MobileNewTarCmd = "%s \"mv %s%s %s%s\"" % (ROOT_User,Home_Path, Target_name, Project_Path, Domain)
         ConnectToTheServer(MobileNewTarCmd)
     scp.close()
