@@ -123,8 +123,9 @@ def DefineVariablesBasedOnUserInput() :
         WPath = "%s%s" % (Source_Path,str(input("Please enter the name of the package to upload or download:")))
         Target_name = str(input("Please enter the package name after uploading or download:"))
         LPath = "%s%s%s" % (Project_Path, Domain, Target_name)
-    WRPath = "%srestart.sh" % (Source_Path)
-    ReStart = "%s%srestart.sh" % (Project_Path, Domain)
+    if sys.argv[-1] == "java":
+        WRPath = "%srestart.sh" % (Source_Path)
+        ReStart = "%s%srestart.sh" % (Project_Path, Domain)
 
 #默认必须的变量
 def SystemVariables():
@@ -276,14 +277,14 @@ if len(sys.argv) > 1:
         SystemVariables()
         OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
         LogWrite(OutFile)
-        Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0], sys.argv[2])
+        Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0], sys.argv[2:])
         Message_Box('PyOps', Outsg, 'warning')
         sys.exit()
 else:
     SystemVariables()
     OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
     LogWrite(OutFile)
-    Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0],sys.argv[2])
+    Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0],sys.argv[2:])
     Message_Box('PyOps',Outsg,'warning')
     sys.exit()
 
