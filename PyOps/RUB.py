@@ -40,6 +40,7 @@ def UploadAndDownloadFile(JH) :
                 if os.path.isdir(WPath.split(Target_name)[0]) == False:
                     os.makedirs(WPath.split(Target_name)[0])
                 try:
+                    print ("文件存放在: %s%s%s" % (Project_Path,Domain,Target_name))
                     sftp.get(Home_Path+Target_name,WPath)
                 except ZeroDivisionError:
                     print ("文件小于等于0KB,请检查文件")
@@ -53,6 +54,7 @@ def UploadAndDownloadFile(JH) :
                 ConnectToTheServer(FilePackCmd)
                 print ("打包完成，开始下载")
                 try:
+                    print ("文件存放在: %s" % (Source_Path+PackName))
                     sftp.get(Home_Path+PackName,Source_Path+PackName)
                 except ZeroDivisionError:
                     print ("文件小于等于0KB,请检查文件")
@@ -63,6 +65,7 @@ def UploadAndDownloadFile(JH) :
             else:
                 try:
                     print ("restart.sh")
+                    print("文件存放在: %s%srestart.sh" % (Project_Path,Domain))
                     sftp.put(WRPath, Home_Path+"restart.sh")
                 except FileNotFoundError:
                     print("restart.sh文件不存在,退出执行")
@@ -77,6 +80,7 @@ def UploadAndDownloadFile(JH) :
     if JH != "dl" and JH != "dlf":
         print (Target_name)
         try:
+            print("文件存放在: %s%s%s" % (Project_Path,Domain,Target_name))
             sftp.put(WPath, Home_Path+Target_name)
         except ZeroDivisionError:
             print ("文件小于等于0KB,请检查文件")
