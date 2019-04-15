@@ -54,8 +54,16 @@ def UploadAndDownloadFile(JH) :
                 ConnectToTheServer(FilePackCmd)
                 print ("打包完成，开始下载")
                 try:
-                    print ("文件存放在: %s" % (Source_Path+PackName))
-                    sftp.get(Home_Path+PackName,Source_Path+PackName)
+                    if sys.argv[1] == "dlf":
+                        source_data_path = "%s%s" % (Source_Path, DATE)
+                        if os.path.isdir(source_data_path) == False:
+                            os.mkdir(source_data_path)
+                    if os.name == "nt":
+                        source_home = "%s\%s" % (source_data_path,PackName)
+                    else:
+                        source_home = "%s/%s" % (source_data_path,PackName)
+                    print("文件存放在: %s" % (source_home))
+                    sftp.get(Home_Path + PackName, source_home)
                 except ZeroDivisionError:
                     print ("文件小于等于0KB,请检查文件")
                     scp.close()
