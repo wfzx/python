@@ -122,11 +122,11 @@ def DefineVariablesBasedOnUserInput() :
     global DTPath,LPath,Domain,WPath,Target_name, ReStart,WRPath
     SystemVariables()
     DTPath = " %s%s/" % (Backup_Path, DATE)
-    if sys.argv[3] == "":
-        Domain = "%s/" % (str(input("Please enter Domain:")))
-    else:
+    if len(sys.argv) > 3:
         Domain = sys.argv[3]
-    print (Domain)
+    else:
+        Domain = "%s/" % (str(input("Please enter Domain:")))
+
     if sys.argv[-1] != "dlf" and sys.argv[1] != "dlf":
         WPath = "%s%s" % (Source_Path,str(input("Please enter the name of the package to upload or download:")))
         Target_name = str(input("Please enter the package name after uploading or download:"))
