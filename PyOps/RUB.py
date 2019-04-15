@@ -122,8 +122,12 @@ def DefineVariablesBasedOnUserInput() :
     global DTPath,LPath,Domain,WPath,Target_name, ReStart,WRPath
     SystemVariables()
     DTPath = " %s%s/" % (Backup_Path, DATE)
-    Domain = "%s/" % (str(input("Please enter Domain:")))
-    if sys.argv[-1] != "dlf":
+    if sys.argv[3] == "":
+        Domain = "%s/" % (str(input("Please enter Domain:")))
+    else:
+        Domain = sys.argv[3]
+    print (Domain)
+    if sys.argv[-1] != "dlf" and sys.argv[1] != "dlf":
         WPath = "%s%s" % (Source_Path,str(input("Please enter the name of the package to upload or download:")))
         Target_name = str(input("Please enter the package name after uploading or download:"))
         LPath = "%s%s%s" % (Project_Path, Domain, Target_name)
@@ -262,6 +266,17 @@ if len(sys.argv) > 1:
             print("退出")
             sys.exit()
         ExecUploadAndDownloadFile(sys.argv[-1])
+    # 命令行式目标目录文件名称打包下载
+    elif sys.argv[1] == "dlf":
+        ExecGetServerConnectionInformation(sys.argv[2])
+        try:
+            DefineVariablesBasedOnUserInput()
+            OutFile = "\n%s Download %s_%s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0],time.strftime("%Y%m%d%H%M"), IP)
+            LogWrite(OutFile)
+        except KeyboardInterrupt:
+            print("退出")
+            sys.exit()
+        ExecUploadAndDownloadFile(sys.argv[1])
     #命令行式下载
     elif sys.argv[1] == "dl":
         ExecGetServerConnectionInformation(sys.argv[2])

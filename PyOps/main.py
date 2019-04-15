@@ -52,14 +52,25 @@ if len(sys.argv) > 1:
         LogWrite(OutFile)
         os.system(ExecMonitor)
     elif sys.argv[1] == "dl":
-        ServerName = sys.argv[2]
+        GroupName = sys.argv[2]
         Domain = sys.argv[3]
         SourcePackName = sys.argv[4]
         AimsPackName = sys.argv[5]
         if os.name == "nt":
-            ExecRUB = "python RUB.py %s %s %s %s %s" % (sys.argv[1],ServerName,Domain,SourcePackName,AimsPackName)
+            ExecRUB = "python RUB.py %s %s %s %s %s" % (sys.argv[1],GroupName,Domain,SourcePackName,AimsPackName)
         else:
-            ExecRUB = "python3 RUB.py %s %s %s %s %s" % (sys.argv[1], ServerName, Domain, SourcePackName, AimsPackName)
+            ExecRUB = "python3 RUB.py %s %s %s %s %s" % (sys.argv[1], GroupName, Domain, SourcePackName, AimsPackName)
+        try:
+            os.system(ExecRUB)
+        except KeyboardInterrupt:
+            pass
+    elif sys.argv[1] == "dlf":
+        GroupName = sys.argv[2]
+        Domain = sys.argv[3]
+        if os.name == "nt":
+            ExecRUB = "python RUB.py %s %s %s" % (sys.argv[1],GroupName,Domain)
+        else:
+            ExecRUB = "python3 RUB.py %s %s %s" % (sys.argv[1], GroupName, Domain)
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:
