@@ -40,7 +40,7 @@ def UploadAndDownloadFile(JH) :
                 if os.path.isdir(WPath.split(Target_name)[0]) == False:
                     os.makedirs(WPath.split(Target_name)[0])
                 try:
-                    print ("文件存放在: %s%s%s" % (Project_Path,Domain,Target_name))
+                    print ("文件存放在: %s%s" % (Source_Path,Target_name))
                     sftp.get(Home_Path+Target_name,WPath)
                 except ZeroDivisionError:
                     print ("文件小于等于0KB,请检查文件")
@@ -86,7 +86,7 @@ def UploadAndDownloadFile(JH) :
             print ("文件小于等于0KB,请检查文件")
             scp.close()
             sys.exit()
-        MobileNewTarCmd = "%s \"mv %s%s %s%s\"" % (ROOT_User,Home_Path, Target_name, Project_Path, Domain)
+        MobileNewTarCmd = "%s \" if [ ! -f %s%s ];then mkdir -p %s%s ;fi && mv %s%s %s%s\"" % (ROOT_User,Project_Path, Domain,Project_Path, Domain,Home_Path, Target_name, Project_Path, Domain)
         ConnectToTheServer(MobileNewTarCmd)
     scp.close()
 
@@ -219,6 +219,7 @@ if len(sys.argv) > 1:
             StartServiceCmd = "%s\" cd %s%s && rm -rf static index.html && unzip -o %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split(".")[0], Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain, Target_name.split(".")[0],Target_name.split(".")[0], Target_name.split(".")[0], Project_Path, Domain)
         else:
             StartServiceCmd = "%s\" cd %s%s && tar zxf %s && if [ ! -d %s/%s ];then mv %s/* ./ && rm -rf %s* && chown -R www.www %s%s;else mv %s/%s/* ./ && rm -rf %s* && chown -R www.www %s%s;fi\"" % (ROOT_User, Project_Path, Domain, Target_name, Target_name.split("_")[0], Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain, Target_name.split("_")[0],Target_name.split("_")[0], Target_name.split("_")[0], Project_Path, Domain)
+            print (StartServiceCmd)
         ExecRelease()
     #获取用户传入的最后一个参数是否为mb
     elif sys.argv[-1] == "mb":
@@ -233,7 +234,7 @@ if len(sys.argv) > 1:
                 MyBackup_Path = "%smysql/" % (Backup_Path)
                 DumpCmd = "mysqldump -u root -p%s %s > %s%s/%s_%s.sql" % (MyPass, MD.decode().strip(), MyBackup_Path, DATE, MD.decode().strip(), DATE)
                 StartInputSqlCmd = "%s\"if [ -d %s%s/ ];then %s;else mkdir -p %s%s/ && %s;fi\"" % (ROOT_User, MyBackup_Path, DATE, DumpCmd, MyBackup_Path, DATE, DumpCmd)
-                TarPackCmd = "%s\"cd %s && tar zcf %s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
+                TarPackCmd = "%s\"cd %s && tar zcf sql_%s.tar.gz %s\"" % (ROOT_User, MyBackup_Path, DATE, DATE)
                 print ("开始备份")
                 ConnectToTheServer(StartInputSqlCmd,TarPackCmd)
         print ("数据库已经备份在",MyBackup_Path,DATE,".tar.gz")
