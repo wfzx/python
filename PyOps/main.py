@@ -48,7 +48,7 @@ if len(sys.argv) > 1:
             ExecMonitor = "python %s/Monitor.py %s" % (os.getcwd(),AllAndSingle)
         else:
             ExecMonitor = "python3 %s/Monitor.py %s" % (os.getcwd(),AllAndSingle)
-        OutFile = "\n%s Exec Montior %s" % (time.strftime("%Y%m%d%H%M"), AllAndSingle)
+        OutFile = "\n%s Exec Montior %s" % (time.strftime("%Y%m%d %H:%M"), AllAndSingle)
         LogWrite(OutFile)
         os.system(ExecMonitor)
     elif sys.argv[1] == "dl":
@@ -76,13 +76,13 @@ if len(sys.argv) > 1:
         except KeyboardInterrupt:
             pass
     else:
-        OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
+        OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d %H:%M"), sys.argv[1:])
         LogWrite(OutFile)
         Outsg = "Usage:\n    python %s  <ud|mt>\n\n No such option: %s" % (sys.argv[0], sys.argv[1:])
         Message_Box('PyOps', Outsg, 'warning')
         sys.exit()
 else:
-    OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[1:])
+    OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d %H:%M"), sys.argv[1:])
     LogWrite(OutFile)
     Outsg = "Usage:\n    python %s  <ud|mt>\n\n No such option: %s" % (sys.argv[0], sys.argv[1:])
     Message_Box('PyOps', Outsg, 'warning')

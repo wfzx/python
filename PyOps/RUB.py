@@ -212,7 +212,7 @@ if len(sys.argv) > 1:
         ExecGetServerConnectionInformation(sys.argv[1])
         try:
             DefineVariablesBasedOnUserInput()
-            OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
+            OutFile = "\n%s %s Upload %s in %s" % (time.strftime("%Y%m%d %H:%M"), Target_name, Domain.split("/")[0], IP)
             LogWrite(OutFile)
         except KeyboardInterrupt:
             print ("退出")
@@ -258,7 +258,7 @@ if len(sys.argv) > 1:
         ExecGetServerConnectionInformation(sys.argv[1])
         try:
             DefineVariablesBasedOnUserInput()
-            OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
+            OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d %H:%M"), Target_name, Domain.split("/")[0], IP)
             LogWrite(OutFile)
         except KeyboardInterrupt:
             print("退出")
@@ -269,7 +269,7 @@ if len(sys.argv) > 1:
         ExecGetServerConnectionInformation(sys.argv[1])
         try:
             DefineVariablesBasedOnUserInput()
-            OutFile = "\n%s Download %s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0], IP)
+            OutFile = "\n%s Download %s.tar.gz in %s" % (time.strftime("%Y%m%d %H:%M"), Domain.split("/")[0], IP)
             LogWrite(OutFile)
         except KeyboardInterrupt:
             print("退出")
@@ -280,7 +280,7 @@ if len(sys.argv) > 1:
         ExecGetServerConnectionInformation(sys.argv[2])
         try:
             DefineVariablesBasedOnUserInput()
-            OutFile = "\n%s Download %s_%s.tar.gz in %s" % (time.strftime("%Y%m%d%H%M"), Domain.split("/")[0],time.strftime("%Y%m%d%H%M"), IP)
+            OutFile = "\n%s Download %s_%s.tar.gz in %s" % (time.strftime("%Y%m%d %H:%M"), Domain.split("/")[0],time.strftime("%Y%m%d%H%M"), IP)
             LogWrite(OutFile)
         except KeyboardInterrupt:
             print("退出")
@@ -297,21 +297,21 @@ if len(sys.argv) > 1:
         Target_name = sys.argv[5]
         LPath = "%s%s%s" % (Project_Path, Domain, Target_name)
         ReStart = "%s%srestart.sh" % (Project_Path, Domain)
-        OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d%H%M"), Target_name, Domain.split("/")[0], IP)
+        OutFile = "\n%s %s Download %s in %s" % (time.strftime("%Y%m%d %H:%M"), Target_name, Domain.split("/")[0], IP)
         LogWrite(OutFile)
         ExecUploadAndDownloadFile(sys.argv[1])
 #如果都不等于就退出
     else:
         ExecGetServerConnectionInformation(sys.argv[1])
         SystemVariables()
-        OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
+        OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d %H:%M"), sys.argv[2:])
         LogWrite(OutFile)
         Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0], sys.argv[2:])
         Message_Box('PyOps', Outsg, 'warning')
         sys.exit()
 else:
     SystemVariables()
-    OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d%H%M"), sys.argv[2:])
+    OutFile = "\n%s No Exec error %s" % (time.strftime("%Y%m%d %H:%M"), sys.argv[2:])
     LogWrite(OutFile)
     Outsg = "Usage:\n    python %s  <groupID> <java|hp|mb|scp|dl|dlf>\n\n No such option: %s" % (sys.argv[0],sys.argv[2:])
     Message_Box('PyOps',Outsg,'warning')
