@@ -1,12 +1,12 @@
 #coding:gbk
 
-import paramiko,configparser,sys
+import paramiko,configparser,sys,os
 
 #获取单个服务器连接信息
 def GetServerConnectionInformation(address) :
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path,conf
     conf = configparser.ConfigParser()
-    conf.read("./conf/sdgroup.conf")
+    conf.read("%s/conf/sdgroup.conf") % (os.getcwd())
     Source_Path = conf.get("source",'source_path')
     IP = conf.get(address, 'ip')
     Port = int(conf.get(address, 'port'))
@@ -21,7 +21,7 @@ def GetServerConnectionInformation(address) :
 def GetAllServerConnectionInformation() :
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path,conf,sections
     conf = configparser.ConfigParser()
-    conf.read("./conf/sdgroup.conf")
+    conf.read("%s/conf/sdgroup.conf") % (os.getcwd())
     sections = conf.sections()
     return sections
 

@@ -5,7 +5,7 @@ import paramiko,sys,configparser,time,os
 #获取服务器连接信息
 def GetServerConnectionInformation(address) :
     conf = configparser.ConfigParser()
-    conf.read("./conf/sdgroup.conf")
+    conf.read("%s/conf/sdgroup.conf") % (os.getcwd())
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path
     Source_Path = conf.get("source",'source_path')
     IP = conf.get(address, 'ip')
@@ -146,7 +146,7 @@ def DefineVariablesBasedOnUserInput() :
 #默认必须的变量
 def SystemVariables():
     global  DATE, JAVA_MeM, ROOT_User,LogName
-    LogName = "./logs/PyOps.log"
+    LogName = "%s/logs/PyOps.log" % (os.getcwd())
     DATE = time.strftime("%Y%m%d")
     JAVA_MeM = " -Xms512m -Xmx512m -jar "
     ROOT_User = "sudo su root -c "
@@ -200,7 +200,7 @@ def LogWrite(content):
     try:
         logging = open(LogName, "a")
     except FileNotFoundError:
-        os.mkdir("./logs/")
+        os.mkdir("%s/logs/") % (os.getcwd())
         logging = open(LogName, "a")
     logging.write(content)
     logging.close()
