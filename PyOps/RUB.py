@@ -5,7 +5,7 @@ import paramiko,sys,configparser,time,os
 #获取服务器连接信息
 def GetServerConnectionInformation(address) :
     conf = configparser.ConfigParser()
-    ConfName = "%s/conf/sdgroup.conf" % (os.getcwd())
+    ConfName = "%sconf/sdgroup.conf" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
     conf.read(ConfName)
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path
     Source_Path = conf.get("source",'source_path')
@@ -54,23 +54,24 @@ def UploadAndDownloadFile(JH) :
                 FilePackCmd = "%s \" cd %s && tar zcf %s %s && mv %s %s\"" % (ROOT_User,Project_Path,PackName,Domain,PackName,Home_Path)
                 ConnectToTheServer(FilePackCmd)
                 print ("打包完成，开始下载")
+                global Source_data_path
+                Source_data_path = "%s%s" % (Source_Path, DATE)
+                if os.path.isdir(Source_data_path) == False:
+                    os.mkdir(Source_data_path)
+                if os.name == "nt":
+                    source_home = "%s\%s" % (Source_data_path, PackName)
+                else:
+                    source_home = "%s/%s" % (Source_data_path, PackName)
                 try:
-                    if sys.argv[1] == "dlf":
-                        source_data_path = "%s%s" % (Source_Path, DATE)
-                        if os.path.isdir(source_data_path) == False:
-                            os.mkdir(source_data_path)
-                    if os.name == "nt":
-                        source_home = "%s\%s" % (source_data_path,PackName)
-                    else:
-                        source_home = "%s/%s" % (source_data_path,PackName)
                     print("文件存放在: %s" % (source_home))
                     sftp.get(Home_Path + PackName, source_home)
                 except ZeroDivisionError:
                     print ("文件小于等于0KB,请检查文件")
                     scp.close()
                     sys.exit()
-                MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,PackName)
-                ConnectToTheServer(MobileNewTarCmdTwo)
+                finally:
+                    MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,PackName)
+                    ConnectToTheServer(MobileNewTarCmdTwo)
             else:
                 try:
                     print ("restart.sh")
@@ -147,7 +148,7 @@ def DefineVariablesBasedOnUserInput() :
 #默认必须的变量
 def SystemVariables():
     global  DATE, JAVA_MeM, ROOT_User,LogName
-    LogName = "%s/logs/PyOps.log" % (os.getcwd())
+    LogName = "%slogs/PyOps.log" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
     DATE = time.strftime("%Y%m%d")
     JAVA_MeM = " -Xms512m -Xmx512m -jar "
     ROOT_User = "sudo su root -c "
@@ -201,7 +202,7 @@ def LogWrite(content):
     try:
         logging = open(LogName, "a")
     except FileNotFoundError:
-        os.mkdir("%s/logs/") % (os.getcwd())
+        os.mkdir("%slogs/") % (os.path.abspath(sys.argv[0]).split(__file__)[0])
         logging = open(LogName, "a")
     logging.write(content)
     logging.close()
@@ -222,7 +223,7 @@ if len(sys.argv) > 1:
     elif sys.argv[-1] == "java":
         ExecGetServerConnectionInformation(sys.argv[1])
         DefineVariablesBasedOnUserInput()
-        StartServiceCmd = "%s\"sed -i 's/zhuxiaoxuan/%s/g' %s && cd %s%s && sh restart.sh && chown -R www.www %s%s\"" % (ROOT_User,Target_name,ReStart, Project_Path, Domain, Project_Path, Domain)
+        StartServiceCmd = "%s\"sed -i 's/PyOps/%s/g' %s && cd %s%s && sh restart.sh && chown -R www.www %s%s\"" % (ROOT_User,Target_name,ReStart, Project_Path, Domain, Project_Path, Domain)
         ExecRelease()
     #获取用户传入的最后一个参数是否为hp
     elif sys.argv[-1] == "hp":

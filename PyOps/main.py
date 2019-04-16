@@ -2,13 +2,13 @@
 
 import os,sys,time
 
-LogName = "%s/logs/PyOps.log" % (os.getcwd())
+LogName = "%slogs/PyOps.log" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
 
 def LogWrite(content):
     try:
         logging = open(LogName, "a")
     except FileNotFoundError:
-        os.mkdir("%s/logs/") % (os.getcwd())
+        os.mkdir("%slogs/") % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
         logging = open(LogName, "a")
     logging.write(content)
     logging.close()
@@ -31,9 +31,9 @@ if len(sys.argv) > 1:
             print ("ÍË³ö")
             sys.exit()
         if os.name == "nt":
-            ExecRUB = "python RUB.py %s %s" % (NumOne,NumTwo)
+            ExecRUB = "python %sRUB.py %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],NumOne,NumTwo)
         else:
-            ExecRUB = "python3 RUB.py %s %s" % (NumOne, NumTwo)
+            ExecRUB = "python3 %sRUB.py %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],NumOne, NumTwo)
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:
@@ -45,9 +45,9 @@ if len(sys.argv) > 1:
             print ("ÍË³ö")
             sys.exit()
         if os.name == "nt":
-            ExecMonitor = "python %s/Monitor.py %s" % (os.getcwd(),AllAndSingle)
+            ExecMonitor = "python %sMonitor.py %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],AllAndSingle)
         else:
-            ExecMonitor = "python3 %s/Monitor.py %s" % (os.getcwd(),AllAndSingle)
+            ExecMonitor = "python3 %sMonitor.py %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],AllAndSingle)
         OutFile = "\n%s Exec Montior %s" % (time.strftime("%Y%m%d %H:%M"), AllAndSingle)
         LogWrite(OutFile)
         os.system(ExecMonitor)
@@ -57,9 +57,9 @@ if len(sys.argv) > 1:
         SourcePackName = sys.argv[4]
         AimsPackName = sys.argv[5]
         if os.name == "nt":
-            ExecRUB = "python %s/RUB.py %s %s %s %s %s" % (os.getcwd(),sys.argv[1],GroupName,Domain,SourcePackName,AimsPackName)
+            ExecRUB = "python %sRUB.py %s %s %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1],GroupName,Domain,SourcePackName,AimsPackName)
         else:
-            ExecRUB = "python3 %s/RUB.py %s %s %s %s %s" % (os.getcwd(),sys.argv[1], GroupName, Domain, SourcePackName, AimsPackName)
+            ExecRUB = "python3 %sRUB.py %s %s %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1], GroupName, Domain, SourcePackName, AimsPackName)
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:
@@ -68,9 +68,9 @@ if len(sys.argv) > 1:
         GroupName = sys.argv[2]
         Domain = sys.argv[3]
         if os.name == "nt":
-            ExecRUB = "python %s/RUB.py %s %s %s" % (os.getcwd(),sys.argv[1],GroupName,Domain)
+            ExecRUB = "python %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1],GroupName,Domain)
         else:
-            ExecRUB = "python3 %s/RUB.py %s %s %s" % (os.getcwd(),sys.argv[1], GroupName, Domain)
+            ExecRUB = "python3 %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1], GroupName, Domain)
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:

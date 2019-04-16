@@ -6,7 +6,7 @@ import paramiko,configparser,sys,os
 def GetServerConnectionInformation(address) :
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path,conf
     conf = configparser.ConfigParser()
-    ConfName = "%s/conf/sdgroup.conf" % (os.getcwd())
+    ConfName = "%sconf/sdgroup.conf" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
     conf.read(ConfName)
     Source_Path = conf.get("source",'source_path')
     IP = conf.get(address, 'ip')
@@ -22,7 +22,7 @@ def GetServerConnectionInformation(address) :
 def GetAllServerConnectionInformation() :
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path,conf,sections
     conf = configparser.ConfigParser()
-    ConfName = "%s/conf/sdgroup.conf" % (os.getcwd())
+    ConfName = "%sconf/sdgroup.conf" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
     conf.read(ConfName)
     sections = conf.sections()
     return sections
