@@ -5,7 +5,8 @@ import paramiko,sys,configparser,time,os
 #获取服务器连接信息
 def GetServerConnectionInformation(address) :
     conf = configparser.ConfigParser()
-    conf.read("%s/conf/sdgroup.conf") % (os.getcwd())
+    ConfName = "%s/conf/sdgroup.conf" % (os.getcwd())
+    conf.read(ConfName)
     global IP,Port,User,Passwd,Backup_Path,Project_Path,Home_Path,MyPass,Source_Path
     Source_Path = conf.get("source",'source_path')
     IP = conf.get(address, 'ip')
