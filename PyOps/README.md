@@ -24,8 +24,11 @@
 项目每次执行都会记录发布信息到logs/*.log中
 
 配置文件介绍：
+
 1.[]中为组名每个以[]为分割
+
 2.每个组中包含服务器ip,username,password,home(临时上传目录),backup_path,project_path,mysql_passwd这些参数不得删除但可以传入空
+
 3.source组为上传文件的路径只有一个source_path而且是必传项
 
 项目使用方法：
