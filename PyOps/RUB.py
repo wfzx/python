@@ -47,6 +47,9 @@ def UploadAndDownloadFile(JH) :
                     print ("文件小于等于0KB,请检查文件")
                     scp.close()
                     sys.exit()
+                finally:
+                    if os.path.getsize(WPath) <= 0:
+                        os.remove(WPath)
                 MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,Target_name)
                 ConnectToTheServer(MobileNewTarCmdTwo)
             elif JH == "dlf":
@@ -70,6 +73,8 @@ def UploadAndDownloadFile(JH) :
                     scp.close()
                     sys.exit()
                 finally:
+                    if os.path.getsize(source_home) <= 0 :
+                        os.remove(source_home)
                     MobileNewTarCmdTwo = "%s \"rm -rf %s%s\"" % (ROOT_User,Home_Path,PackName)
                     ConnectToTheServer(MobileNewTarCmdTwo)
             else:
@@ -319,7 +324,8 @@ else:
     sys.exit()
 
 #正常执行后输出完毕
-if os.name == "nt":
-    Message_Box('PyOps',"任务完成","info")
-else:
-    print("任务完成")
+if sys.argv[-1] != "no":
+    if os.name == "nt":
+        Message_Box('PyOps',"任务完成","info")
+    else:
+        print("任务完成")
