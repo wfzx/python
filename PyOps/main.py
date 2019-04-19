@@ -67,10 +67,16 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == "dlf":
         GroupName = sys.argv[2]
         Domain = sys.argv[3]
-        if os.name == "nt":
-            ExecRUB = "python %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1],GroupName,Domain)
+        if len(sys.argv) == 5:
+            if os.name == "nt":
+                ExecRUB = "python %sRUB.py %s %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0], sys.argv[1], GroupName, Domain,sys.argv[4])
+            else:
+                ExecRUB = "python3 %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0], sys.argv[1], GroupName, Domain)
         else:
-            ExecRUB = "python3 %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1], GroupName, Domain)
+            if os.name == "nt":
+                ExecRUB = "python %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1],GroupName,Domain)
+            else:
+                ExecRUB = "python3 %sRUB.py %s %s %s" % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0],sys.argv[1], GroupName, Domain)
         try:
             os.system(ExecRUB)
         except KeyboardInterrupt:
