@@ -1,13 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 import psutil
 
-#内存使用率
+#Mem
 print ("Mem:%.f%%" % (psutil.virtual_memory().percent))
 
-#cpu使用率
+#cpu
 print ("CPU:%.f%%" % (psutil.cpu_percent(1)))
 
-#磁盘使用率
+#Disk
 print ("Disk:%.f%%" % (psutil.disk_usage("/").percent))
 

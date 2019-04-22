@@ -53,11 +53,11 @@ if len(sys.argv) > 1:
                 GetServerConnectionInformation(AllServerGroupName[i])
             except EOFError:
                 continue
-            cmd = "python3 ~/python/agent.py"
+            cmd = "python ~/python/agent.py"
             ConnectToTheServer(cmd)
     else:
         GetServerConnectionInformation(sys.argv[1])
-        cmd = "python3 ~/python/agent.py"
+        cmd = "python ~/python/agent.py"
         ConnectToTheServer(cmd)
 else:
     print("Please pass the reference")
