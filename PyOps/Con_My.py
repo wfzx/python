@@ -1,24 +1,17 @@
 #coding:gbk
 
 import pymysql
-
-db = pymysql.connect('120.78.212.211','python','Python123!','te_python')
-
-# 使用 cursor() 方法创建一个游标对象 cursor
+from Adjustment import ConntionInfo
+Connection = ConntionInfo('test')
+print (Connection.IP,Connection.MyPass)
+db = pymysql.connect(Connection.IP, 'root', 'Zxx123456!')
 cursor = db.cursor()
-
-# 使用 execute() 方法执行 SQL，如果表存在则删除
-cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
-
-# 使用预处理语句创建表
-sql = """CREATE TABLE EMPLOYEE (
-         FIRST_NAME  CHAR(20) NOT NULL,
-         LAST_NAME  CHAR(20),
-         AGE INT,  
-         SEX CHAR(1),
-         INCOME FLOAT )"""
-
+sql = "show databases"
 cursor.execute(sql)
-
+outmsg = cursor.fetchall()
+for i in outmsg:
+    a = "%s" % (i)
+    print (a)
 # 关闭数据库连接
+cursor.close()
 db.close()
