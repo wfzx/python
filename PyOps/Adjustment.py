@@ -43,12 +43,12 @@ class ConntionInfo:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(IP, Port, User, Passwd)
         for i in params:
-            stdin, stdout, stderr = ssh.exec_command(i)
+            stdin, stdout, stderr = ssh.exec_command(str(i))
             outmsg, errmsg = stdout.read(), stderr.read()
-            # if outmsg != "":
-            #     print(outmsg.decode().strip())
+            if outmsg != "":
+                print(outmsg.decode().strip())
             # if errmsg != "":
-            #     print(errmsg)
+            #     print(errmsg.decode().strip())
         ssh.close()
 
     # –¥»Îlog

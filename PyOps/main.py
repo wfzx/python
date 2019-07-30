@@ -8,7 +8,7 @@ def LogWrite(content):
     try:
         logging = open(LogName, "a")
     except FileNotFoundError:
-        os.mkdir("%slogs/") % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0])
+        os.mkdir(("%slogs/") % (os.path.abspath(sys.argv[0]).split(os.path.split(sys.argv[0])[1])[0]))
         logging = open(LogName, "a")
     logging.write(content)
     logging.close()

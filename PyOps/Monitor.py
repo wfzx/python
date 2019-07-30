@@ -1,7 +1,7 @@
 #coding:gbk
 
 import configparser,sys,os
-from PyOps.Adjustment import ConntionInfo
+from Adjustment import ConntionInfo
 
 if len(sys.argv) > 1:
     if sys.argv[1] == "all":
@@ -16,7 +16,7 @@ if len(sys.argv) > 1:
 
     else:
         Connection = ConntionInfo(sys.argv[1])
-        cmd = "python ~/python/agent.py"
+        cmd = "python3 ~/python/agent.py"
         Connection.ConntionSSH(cmd)
 else:
     print("Please pass the reference")

@@ -1,4 +1,4 @@
-使用本项目前请安装python3.7以上版本，请安装依赖模块paramiko和安装cryptography==2.4.2,然后使用install_agent.sh脚本安装agent进程
+使用本项目前请安装python3.7以上版本，请安装依赖模块paramiko和安装cryptography,然后使用install_agent.sh脚本安装agent进程
 
 在python的安装目录找到sftp_client.py文件找到_transfer_with_callback函数替换为以下内容可实现上传下载的进度百分比，也可以使用pack下面的直接替换即可
 
