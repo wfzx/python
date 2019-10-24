@@ -26,7 +26,6 @@ class ConntionInfo:
         Project_Path = conf.get(GroupName, 'project_path')
         Home_Path = conf.get(GroupName, 'home')
         MyPass = conf.get(GroupName, 'mysql_passwd')
-        # print (self.IP,self.Port,self.User,self.Passwd,self.Backup_Path,self.Project_Path,self.Home_Path,self.MyPass,self.Source_Path)
 
     # µ÷ÓÃwindowsµ¯´°
     def Message_Box(self,title, msg, status):
