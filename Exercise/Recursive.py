@@ -51,7 +51,7 @@ def search(root, target,lx='mo'):
                                     DecPath = path.split(path.split("\\")[5])[0]
                                     TarName = '%s.tar.gz' % (domain)
                                     if os.path.isfile(os.path.join(DecPath,TarName)) == False:
-                                        cmd = 'python ../PyOps/main.py dlf 202 %s no' % (domain)
+                                        cmd = 'python ../PyOps/GetPass.py dlf 202 %s no' % (domain)
                                         os.system(cmd)
                                         with open('..\PyOps\logs\PyOps.log', 'r') as f:
                                             lines = f.readlines()

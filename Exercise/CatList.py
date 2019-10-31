@@ -1,6 +1,6 @@
 #coding:gbk
 
-import os,sys
+import os
 
 path = r"D:\zhuxiaoxuan\所有公司代码\项目整理"
 
