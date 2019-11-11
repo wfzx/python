@@ -14,7 +14,7 @@ def Message_Box(title, msg, status):
 Times = time.strftime("%M", time.localtime())
 
 while True:
-    if Times == '57':
+    if Times == '54':
         Message_Box("ÄÖÖÓ","body","info")
         break
     else:
