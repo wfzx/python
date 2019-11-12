@@ -5,7 +5,7 @@ class User(models.Model):
         ('male', "男"),
         ('female', "女"),
     )
-    name = models.CharField(max_length=8,unique=True)
+    name = models.CharField(max_length=32,unique=True)
     password = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
     sex = models.CharField(max_length=32,default="男")

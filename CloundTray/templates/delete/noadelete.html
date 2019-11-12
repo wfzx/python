@@ -54,16 +54,17 @@
     <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
 </head>
 <body style="background-color:#1b1c1d;">
-    <form method="post" action="" enctype="multipart/form-data">
+
+ <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <h1 class="tou">删除操作</h1>
-        <p><a class="output bz"> 删除完成 访问</a><a class="output bz" href="https://www.mnonn.com/download"> https://www.mnonn.com/download </a><a class="output bz">查看！！！</a><p>
+        <p><a class="output bz"> 你没有删除该目录的权限！！！</a><p>
 	    <div>
             <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要删除的文件</a><br>
             <input class="myfile myfile1" type="submit" value="删除">
 	        <p><a class="output bz" href="/">返回首页</a></p>
 	    </div>
-    </form>
+ </form>
 
 </body>
 </html>

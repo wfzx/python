@@ -12,6 +12,14 @@ def upload_file(request):
             if request.POST['dir'] == '':
                 return render(request,"path/nopath.html")
             else:
+                dir = request.POST['dir']
+                if '/' in str(dir):
+                    user = str(dir).split('/')[0]
+                else:
+                    user = str(dir).split()[0]
+                if request.session["login_user"] != 'zxx':
+                    if request.session["login_user"] != user:
+                        return render(request,"upload/noaupload.html")
                 if os.path.isdir("/data/server/Clound/%s" % request.POST['dir']) != True:
                     os.makedirs("/data/server/Clound/%s" % request.POST['dir'])
                 with open("/data/server/Clound/%s/%s" % (request.POST['dir'],File.name), 'wb+') as f:
