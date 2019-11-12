@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    p{
+        text-align:center;
+     }
+
+    .bz{
+        color:#9098a0;
+        font-size:20px;
+        font-family:cursive;
+    }
+
+    .zc{
+        text-align:center;
+        font-size:30px;
+        color: black;
+        text-decoration:none;
+    }
+
+    .tou{
+        text-align:center;
+        font-size:50px;
+        margin-left:70px;
+        color: #9098a0;
+        font-family:cursive;
+    }
+
+    .myfile{
+        font-size:30px;
+        display:inline-block;
+        height:60px;
+        line-height:60px;
+        margin-bottom:50px;
+    }
+
+    .myfile1{
+        width:380px;
+    }
+
+    .uplode{
+        width:120px;
+    }
+
+    .output{
+        font-size:40px;
+    }
+
+    .return{
+        font-size:40px;
+    }
+
+    .twoleft{
+        margin-left:17px;
+    }
+
+    .zc{
+        margin-left:60px;
+        color: black;
+        font-family:cursive;
+    }
+
+    .sex{
+        display:inline-block;
+        height:50px;
+        line-height:60px;
+        margin-bottom:60px;
+        margin-left:140px;
+        margin-right:0px;
+        width:60px;
+    }
+
+    .sex1{
+        display:inline-block;
+        height:50px;
+        line-height:60px;
+        margin-bottom:60px;
+        margin-left:75px;
+        margin-right:0px;
+        width:60px;
+    }
+
+    .zt{
+        font-size:30px;
+    }
+
+    .tou1{
+        color:#9098a0
+    }
+
+    div{
+        margin:120px auto;
+        width: 700px;
+        height:300px;
+        text-align: center;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Mnonn</title>
+    <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
+</head>
+<body style="background-color:#1b1c1d;">
+<form action="/login/" method="post">
+    {% csrf_token %}
+    <h1 class="tou">注册界面</h1>
+    <p><a class="zc tou1">两次密码不一致</a></p>
+    <div>
+        <a class="bz">用户名：</a><input class="myfile myfile1" type="text" name="name"><br>
+        <a class="bz">性别：</a><input class="sex" type="radio" name="sex" value="男" checked><a class="zt bz" >男</a>
+        <input class="sex1" type="radio" name="sex" value="女"><a class="zt bz" >女</a><br>
+        <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="email"><br>
+        <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password"><br>
+        <a class="bz">确认：</a><input class="myfile myfile1 twoleft" type="password" name="repassword"><br>
+        <input class="myfile uplode zc bz" type="submit" value="注册">
+        <a href="/"><input class="myfile uplode zc bz" style="width:130px" type="button" value="返回登录"></a>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    p{
+        text-align:center;
+    }
+
+    .tou{
+        text-align:center;
+        font-size:50px;
+        margin-left:70px;
+        color: #9098a0;
+        font-family:cursive;
+    }
+
+    .myfile{
+        font-size:30px;
+        display:inline-block;
+        height:60px;
+        line-height:60px;
+        margin-bottom:100px;
+        font-family:cursive;
+    }
+
+    .myfile1{
+        width:380px;
+    }
+
+    .uplode{
+        width:120px;
+        margin-left:50px;
+    }
+
+    .output{
+        font-size:40px;
+        margin-left: 50px;
+    }
+
+     .bz{
+        color:#9098a0;
+        font-family:cursive;
+    }
+
+    div{
+        margin:120px auto;
+        width: 700px;
+        height:300px;
+        text-align: center;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Mnonn</title>
+    <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
+</head>
+<body style="background-color:#1b1c1d;">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="tou">上传操作</h1>
+	    <div>
+            <input class="myfile myfile1 bz" type="file" name="myfile"><br>
+            <input class="myfile myfile1 bz" type="text" name="dir"><a class="myfile bz">输入上传的路径</a><br>
+            <input class="myfile uplode" type="submit" value="上传">
+	        <p><a class="output bz" href="/">返回首页</a></p>
+	    </div>
+    </form>
+</body>
+</html>
