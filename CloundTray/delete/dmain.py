@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from login.admin import check_user
+from django.contrib import messages
 import os,shutil
 
 @check_user
 def delete_file(request):
     if request.method == "POST":
         if request.POST['dir'] == '':
-            return render(request,"delete/nodelete.html")
+            return redirect("/delete", messages.error(request, '请输入要删除文件的完整路径！！！'))
         else:
             dir = request.POST['dir']
             if '/' in str(dir):
@@ -15,15 +16,15 @@ def delete_file(request):
                 user = str(dir).split()[0]
             if request.session["login_user"] != 'zxx':
                 if request.session["login_user"] != user:
-                    return render(request, "delete/noadelete.html")
+                    return redirect("/delete", messages.error(request, '你没有删除该目录的权限！！！'))
             path = "/data/server/Clound/%s" % request.POST['dir']
             if os.path.isfile(path) != True:
                 if os.path.isdir(path) != True:
-                    return render(request,"delete/nodelete.html")
+                    return redirect("/delete", messages.error(request, '请输入要删除文件的完整路径！！！'))
                 else:
                     shutil.rmtree(path)
             else:
                 os.remove(path)
-            return render(request, "delete/yesdelete.html")
+            return redirect("/delete", messages.error(request, '删除完成 访问https://www.mnonn.com/download查看！！！'))
     else:
         return render(request,"delete/delete.html")

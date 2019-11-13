@@ -61,6 +61,13 @@
             <input class="myfile myfile1 bz" type="file" name="myfile"><br>
             <input class="myfile myfile1 bz" type="text" name="dir"><a class="myfile bz">输入上传的路径</a><br>
             <input class="myfile uplode" type="submit" value="上传">
+            {% if messages %}
+                <script>
+                    {% for msg in messages %}
+                        alert('{{ msg.message }}');
+                    {% endfor %}
+                </script>
+            {% endif %}
 	        <p><a class="output bz" href="/">返回首页</a></p>
 	    </div>
     </form>

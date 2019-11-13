@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from . import models,md5
 
 def check_user(func):
@@ -20,7 +21,7 @@ def login(request):
             request.session["login_user"] = username
             return render(request,'index.html')
         else:
-            return render(request,'login/passError.html')
+            return redirect("/",messages.error(request,"用户名密码错误"))
     else:
         if request.session.get("login_user"):
             return render(request, "index.html")
@@ -35,18 +36,24 @@ def zc(request):
         password = request.POST['password']
         repassword = request.POST['repassword']
         md5password = md5.HashPass(password)
+        invitacode = request.POST['invita']
         if username and password and repassword and sex and email:
             if password == repassword:
                 user_obj = models.User.objects.filter(name=username).first()
                 if user_obj:
-                    return render(request,'login/UserExits.html')
+                    return redirect("/login",messages.error(request,'用户已存在'))
                 else:
-                    models.User.objects.create(name=username,password=md5password,email=email,sex=sex).save()
-                    return redirect('/')
+                    DupQuery = models.Invita.objects.filter(invitacode=invitacode).exists()
+                    if DupQuery != True:
+                        return redirect("/login",messages.error(request,'邀请码不存在'))
+                    else:
+                        models.User.objects.create(name=username,password=md5password,email=email,sex=sex).save()
+                        models.Invita.objects.filter(invitacode=invitacode).update(invitaname=username)
+                        return redirect('/',messages.success(request,"注册成功"))
             else:
-                return render(request,'login/PassNotSame.html')
+                return redirect("/login",messages.error(request,'两次密码不一致'))
         else:
-            return render(request,'login/NotHaveNone.html')
+            return redirect("/login",messages.error(request,'不能有空项'))
     else:
         if request.session.get("login_user"):
             request.session["login_user"] = ""

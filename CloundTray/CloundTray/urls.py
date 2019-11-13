@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from login import admin
+from login import admin,invita
 from upload import views,umain
 from delete import dmain
 
@@ -23,4 +23,5 @@ urlpatterns = [
     path('upload/', umain.upload_file),
     path('delete/',dmain.delete_file),
     path('login/',admin.zc),
+    path('invita/',invita.RanNum)
 ]

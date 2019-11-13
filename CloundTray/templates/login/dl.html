@@ -80,6 +80,13 @@
         <a class="bz">用户名：</a><input class="myfile myfile1" type="text" name="name"><br>
         <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password"><br>
         <input class="myfile uplode" type="submit" value="登陆">
+        {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
     </div>
 </form>
 </body>

@@ -24,7 +24,7 @@
     }
 
     .tc{
-        margin-left:800px;
+        margin-left:500px;
         font-size:24px;
         color:#9098a0;
         text-decoration:none;
@@ -36,7 +36,16 @@
     }
 </style>
 <body style="background-color:#1b1c1d;">
-    <p><a class="tc bz" href="/login">退出登录</a></p>
+    <p><a class="tc bz" style="margin-left:-10px" href="/invita">邀请码</a>
+        {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
+        <a class="tc bz" href="/login">退出登录</a>
+    </p>
     <div>
         <p><a href="upload">上传文件</a></p>
         <p><a href="https://www.mnonn.com/download">进入云盘</a></p>

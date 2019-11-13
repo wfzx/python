@@ -60,6 +60,13 @@
 	    <div>
             <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要删除的文件</a><br>
             <input class="myfile myfile1" type="submit" value="删除">
+            {% if messages %}
+                <script>
+                    {% for msg in messages %}
+                        alert('{{ msg.message }}');
+                    {% endfor %}
+                </script>
+            {% endif %}
 	        <p><a class="output bz" href="/">返回首页</a></p>
 	    </div>
     </form>

@@ -83,7 +83,7 @@
     }
 
     div{
-        margin:120px auto;
+        margin:60px auto;
         width: 700px;
         height:300px;
         text-align: center;
@@ -105,7 +105,15 @@
         <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="email"><br>
         <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password"><br>
         <a class="bz">确认：</a><input class="myfile myfile1 twoleft" type="password" name="repassword"><br>
+        <a class="bz">邀请码：</a><input class="myfile myfile1" type="text" name="invita"><br>
         <input class="myfile uplode zc bz" type="submit" value="注册">
+        {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
         <a href="/"><input class="myfile uplode zc bz" style="width:130px" type="button" value="返回登录"></a>
     </div>
 </form>
