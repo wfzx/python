@@ -23,5 +23,5 @@ urlpatterns = [
     path('upload/', umain.upload_file),
     path('delete/',dmain.delete_file),
     path('login/',admin.zc),
-    path('invita/',invita.RanNum)
+    path('invita/',invita.RanNum),
 ]

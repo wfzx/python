@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'CloundTray.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dataname',
-        'USER': 'username',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'NAME': 'Mnonn',
+        'USER': 'Mnonn',
+        'PASSWORD': 'mSzOaVK5xyxutj5XakWxqtkJ3argmvsl',
+        'HOST': '120.78.212.211',
         'PORT': '3306',
     }
 }
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 

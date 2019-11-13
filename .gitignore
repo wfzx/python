@@ -1,4 +1,4 @@
 .gitignore
 .idea
 .PushPasswd/conf/auth.conf
-.CloundTray/CloundTray/settings.py
+.CloundTray/CloundTray/CloundTray/settings.py
