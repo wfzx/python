@@ -1,3 +1,7 @@
-from django.test import TestCase
+# from django.test import TestCase
+#
+# # Create your tests here.
+#
+import datetime
 
-# Create your tests here.
+print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))

@@ -29,9 +29,9 @@
     .myfile{
         font-size:30px;
         display:inline-block;
-        height:60px;
+        height:50px;
         line-height:60px;
-        margin-bottom:50px;
+        margin-bottom:40px;
     }
 
     .myfile1{
@@ -82,6 +82,17 @@
         font-size:30px;
     }
 
+    .code{
+        width:100px;
+        height:40px;
+        margin-left:40px;
+    }
+
+    .codetext{
+        width:226px;
+        margin-right:14px;
+    }
+
     div{
         margin:60px auto;
         width: 700px;
@@ -102,11 +113,12 @@
         <a class="bz">用户名：</a><input class="myfile myfile1" type="text" name="name"><br>
         <a class="bz">性别：</a><input class="sex" type="radio" name="sex" value="男" checked><a class="zt bz" >男</a>
         <input class="sex1" type="radio" name="sex" value="女"><a class="zt bz" >女</a><br>
-        <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="email"><br>
+        <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="m"><br>
+        <a class="bz">验证码：</a><input class="myfile codetext" type="text" name="code"><input class="code" type="submit" value="获取验证码" name="tj"><br>
         <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password"><br>
         <a class="bz">确认：</a><input class="myfile myfile1 twoleft" type="password" name="repassword"><br>
         <a class="bz">邀请码：</a><input class="myfile myfile1" type="text" name="invita"><br>
-        <input class="myfile uplode zc bz" type="submit" value="注册">
+        <input class="myfile uplode zc bz" type="submit" value="注册" name="tj">
         {% if messages %}
             <script>
                 {% for msg in messages %}
