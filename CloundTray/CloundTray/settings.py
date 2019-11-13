@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'CloundTray.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'databasename',
-        'USER': 'username',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'NAME': 'Mnonn',
+        'USER': 'Mnonn',
+        'PASSWORD': 'Mnonn^#^123SuExamy#^#',
+        'HOST': '120.78.212.211',
         'PORT': '3306',
     }
 }
