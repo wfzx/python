@@ -9,8 +9,7 @@ def GetUrlStatusCode(url):
     except requests.exceptions.ConnectionError:
         return 1
     except requests.exceptions.MissingSchema:
-        return 2
-
+        return requests.exceptions.MissingSchema
 
 url = str(input("Please Enter Check Url :"))
 
@@ -21,9 +20,6 @@ if url[0:7] != 'http://':
 
 Code = GetUrlStatusCode(url)
 if Code == 1:
-    print ('The domain name entered is incorrect : %s 0' % (url))
-    sys.exit(0)
-elif Code == 2:
     print ('The domain name entered is incorrect : %s' % (url))
     sys.exit(0)
 else:
