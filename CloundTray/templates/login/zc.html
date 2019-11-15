@@ -106,18 +106,18 @@
     <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
 </head>
 <body style="background-color:#1b1c1d;">
-<form action="/login/" method="post">
+<form action="/login/" method="post" target="postTo">
     {% csrf_token %}
     <h1 class="tou">注册界面</h1>
-    <div>
-        <a class="bz">用户名：</a><input class="myfile myfile1" type="text" name="name"><br>
+    <div id="0">
+        <a class="bz">用户名：</a><input class="myfile myfile1" type="text" name="name" placeholder="请输入用户名"><br>
         <a class="bz">性别：</a><input class="sex" type="radio" name="sex" value="男" checked><a class="zt bz" >男</a>
         <input class="sex1" type="radio" name="sex" value="女"><a class="zt bz" >女</a><br>
-        <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="m"><br>
-        <a class="bz">验证码：</a><input class="myfile codetext" type="text" name="code"><input class="code" type="submit" value="获取验证码" name="tj"><br>
-        <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password"><br>
-        <a class="bz">确认：</a><input class="myfile myfile1 twoleft" type="password" name="repassword"><br>
-        <a class="bz">邀请码：</a><input class="myfile myfile1" type="text" name="invita"><br>
+        <a class="bz">邮箱：</a><input class="myfile myfile1 twoleft" type="email" name="m" placeholder="请输入邮箱"><br>
+        <a class="bz">验证码：</a><input class="myfile codetext" type="text" name="code" placeholder="请输入验证码"><input class="code" type="submit" value="获取验证码" name="tj"><br>
+        <a class="bz">密码：</a><input class="myfile myfile1 twoleft" type="password" name="password" placeholder="请输入密码"><br>
+        <a class="bz">确认：</a><input class="myfile myfile1 twoleft" type="password" name="repassword" placeholder="请确认密码"><br>
+        <a class="bz">邀请码：</a><input class="myfile myfile1" type="text" name="invita" placeholder="请输入邀请码"><br>
         <input class="myfile uplode zc bz" type="submit" value="注册" name="tj">
         {% if messages %}
             <script>
@@ -129,5 +129,6 @@
         <a href="/"><input class="myfile uplode zc bz" style="width:130px" type="button" value="返回登录"></a>
     </div>
 </form>
+<iframe name="postTo" style="display:none"></iframe>
 </body>
 </html>

@@ -27,17 +27,22 @@ class verCode(object):
             JatLag = int(CurTimeStamp) - int(TimeStamp)
             if JatLag < 60 :
                 RemTime = 60 - JatLag
-                return messages.error(request,"请%s后重试" % RemTime)
+                request.session['yzm'] = "0"
+                request.session['timeout'] = RemTime
+                print("请稍后重试")
 
     def Sendmail(self,request):
         models.VerCode.objects.create(code=self.str).save()
-        email = request.GET['m']
+        email = request.session['mail']
         mail = Email(email,self.str)
         mail.SendCode()
         request.session["invita_code"] = self.str
         request.session["invita_time"] = time.time()
+        print("发送验证码成功")
 
 def login(request):
+    request.session['yzm'] = ""
+    request.session['qt'] = ""
     if request.method == 'POST':
         username = request.POST['name']
         password = request.POST['password']
@@ -45,6 +50,7 @@ def login(request):
         user_obj = models.User.objects.filter(name=username,password=md5password).first()
         if user_obj:
             request.session["login_user"] = username
+            request.session["old_login_user"] = request.session["login_user"]
             return render(request,'index.html')
         else:
             return redirect("/",messages.error(request,"用户名密码错误"))
@@ -52,6 +58,7 @@ def login(request):
         if request.session.get("login_user"):
             user_obj = models.User.objects.filter(name=request.session.get('login_user')).first()
             if user_obj :
+                request.session["old_login_user"] = request.session["login_user"]
                 return render(request, "index.html")
             else:
                 request.session["login_user"] = ""
@@ -70,53 +77,63 @@ def zc(request):
         invitacode = request.POST['invita']
         invitavercode = request.POST['code']
         if request.POST['tj'] == '获取验证码':
-            return redirect("/login?m=%s&c=1" % email)
+            print("开始发送验证码")
+            request.session['yzm'] = "1"
+            request.session['mail'] = request.POST['m']
+            return redirect("/login",request)
         if username and password and repassword and sex and email and invitavercode:
             if len(password) < 6:
-                return redirect("/login?m=%s&c=2",messages.error(request,"密码长度小于6位"))
+                return redirect("/login",messages.error(request,"密码长度小于6位"))
             if password.isdigit():
-                return redirect("/login?m=%s&c=2",messages.error(request,"密码不能为纯数字"))
+                return redirect("/login",messages.error(request,"密码不能为纯数字"))
             if password.isalpha():
-                return redirect("/login?m=%s&c=2", messages.error(request, "密码不能为纯字母"))
+                return redirect("/login", messages.error(request, "密码不能为纯字母"))
             if password == repassword:
                 user_obj = models.User.objects.filter(name=username).first()
                 if user_obj:
-                    return redirect("/login?m=%s&c=2",messages.error(request,'用户已存在'))
+                    return redirect("/login",messages.error(request,'用户已存在'))
                 else:
                     DupQuery = models.Invita.objects.filter(invitacode=invitacode).exists()
                     if DupQuery != True:
-                        return redirect("/login?m=%s&c=2",messages.error(request,'邀请码不存在'))
+                        return redirect("/login",messages.error(request,'邀请码不存在'))
                     else:
                         CodeQuery = models.Invita.objects.filter(invitacode=invitacode, invitaname=None).exists()
                         if CodeQuery != True:
-                            return redirect('/login?m=%s&c=2', messages.error(request, "当前邀请码已被使用"))
+                            return redirect('/login', messages.error(request, "当前邀请码已被使用"))
                         VerCodeQuery = models.VerCode.objects.filter(code=invitavercode).exists()
                         if VerCodeQuery != True:
-                            return redirect('/login?m=%s&c=2', messages.error(request, "验证码错误"))
-                        VerCodeQueryExists =  models.VerCode.objects.filter(code=invitavercode,name=None).exists()
+                            return redirect('/login', messages.error(request, "验证码错误"))
+                        VerCodeQueryExists =  models.VerCode.objects.filter(code=invitavercode,recode=None).exists()
                         if VerCodeQueryExists != True:
-                            return redirect('/login?m=%s&c=2', messages.error(request, "验证码已被使用"))
+                            return redirect('/login', messages.error(request, "验证码已被使用"))
                         try:
                             models.User.objects.create(name=username,password=md5password,email=email,sex=sex).save()
                             models.Invita.objects.filter(invitacode=invitacode).update(invitaname=username,invitavercode=invitavercode)
                             models.VerCode.objects.filter(code=invitavercode).update(name=username,recode=invitavercode)
                         except:
-                            return redirect('/login?m=%s&c=2',messages.error(request,"注册失败，邮箱以被使用"))
+                            return redirect('/login',messages.error(request,"注册失败，邮箱以被使用"))
                         return redirect('/',messages.success(request,"注册成功"))
             else:
-                return redirect("/login?m=%s&c=2",messages.error(request,'两次密码不一致'))
+                return redirect("/login",messages.error(request,'两次密码不一致'))
         else:
-            return redirect("/login?m=%s&c=2",messages.error(request,'不能有空项'))
+            return redirect("/login",messages.error(request,'不能有空项'))
     else:
         if request.session.get("login_user"):
             request.session["login_user"] = ""
             return redirect("/")
         else:
-            email = request.GET['m']
-            if request.GET['c'] == '1':
-                code = verCode()
-                code.timeOneS(request)
-                code.Sendmail(request)
-                return redirect("/login?m=%s&c=2" % email)
-            else:
+            if request.session['yzm'] == True:
+                request.session['yzm'] = ""
                 return render(request, "login/zc.html")
+            else:
+                if request.session["yzm"] == '1':
+                    code = verCode()
+                    code.timeOneS(request)
+                    if request.session["yzm"] != '0':
+                        code.Sendmail(request)
+                        request.session['yzm'] = "0"
+                        return redirect("/login", messages.success(request, "验证码已发送"))
+                    else:
+                        return  redirect("/login",messages.error(request,"请%s秒后再次发送" % (request.session["timeout"])))
+                else:
+                    return render(request, "login/zc.html")

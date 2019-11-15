@@ -34,11 +34,21 @@
 
     .output{
         font-size:40px;
+        line-height: 200px;
+        margin-left:90px;
+        margin-right:90px;
     }
 
     .bz{
         color:#9098a0;
         font-family:cursive;
+    }
+
+    .mu{
+        margin-left:auto;
+        font-size:24px;
+        color:blue;
+        text-decoration:none;
     }
 
     div{
@@ -54,22 +64,23 @@
     <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
 </head>
 <body style="background-color:#1b1c1d;">
-    <form method="post" action="" enctype="multipart/form-data" target="postTo">
-        {% csrf_token %}
-        <h1 class="tou">删除操作</h1>
-	    <div>
-            <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要删除的文件</a><br>
-            <input class="myfile myfile1" type="submit" value="删除">
-            {% if messages %}
-                <script>
-                    {% for msg in messages %}
-                        alert('{{ msg.message }}');
-                    {% endfor %}
-                </script>
-            {% endif %}
-	        <p><a class="output bz" href="/">返回首页</a></p>
-	    </div>
-    </form>
-<iframe name="postTo" style="display:none"></iframe>
+    <h1 class="tou">Mnonn云盘</h1>
+    <div>
+        {% for i in TutorialList %}
+            <p><a class="bz mu" href="{{ i }}/">{{ i }}</a></p>
+        {% endfor %}
+        {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
+        <form action="" method="post">
+        <p><a class="output bz" href="/download/?id=1" name="dirall">查看所有</a>
+            <a class="output bz" href="/">返回首页</a></p>
+        </form>
+    </div>
+
 </body>
 </html>

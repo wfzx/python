@@ -54,7 +54,7 @@
     <link rel="icon" href="https://www.mnonn.com/static/favicon.ico">
 </head>
 <body style="background-color:#1b1c1d;">
-    <form method="post" action="" enctype="multipart/form-data">
+    <form method="post" action="" enctype="multipart/form-data" target="postTo">
         {% csrf_token %}
         <h1 class="tou">上传操作</h1>
 	    <div>
@@ -71,5 +71,6 @@
 	        <p><a class="output bz" href="/">返回首页</a></p>
 	    </div>
     </form>
+<iframe name="postTo" style="display:none"></iframe>
 </body>
 </html>

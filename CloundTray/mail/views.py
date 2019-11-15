@@ -13,6 +13,6 @@ class Email(object):
         self.mail['To'] = self.username_recv
 
     def SendCode(self):
-        smtp = smtplib.SMTP(self.mailserver, port=25)
+        smtp = smtplib.SMTP_SSL(self.mailserver, port=465)
         smtp.login(self.username_send, self.password)
         smtp.sendmail(self.username_send, self.username_recv, self.mail.as_string())

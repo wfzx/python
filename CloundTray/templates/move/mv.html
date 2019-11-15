@@ -56,10 +56,11 @@
 <body style="background-color:#1b1c1d;">
     <form method="post" action="" enctype="multipart/form-data" target="postTo">
         {% csrf_token %}
-        <h1 class="tou">删除操作</h1>
+        <h1 class="tou">移动操作</h1>
 	    <div>
-            <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要删除的文件</a><br>
-            <input class="myfile myfile1" type="submit" value="删除">
+            <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要移动的文件路径</a><br>
+            <input class="myfile myfile1" type="text" name="dir"><a class="myfile bz"> 输入要移动文件到哪里</a><br>
+            <input class="myfile myfile1" type="submit" value="移动">
             {% if messages %}
                 <script>
                     {% for msg in messages %}
