@@ -81,11 +81,10 @@ WSGI_APPLICATION = 'DevOps.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CrsDevOps',
-        'USER': 'CRS',
-        'PASSWORD': 'hgXzlEIe9AN4zuYJ',
-        'HOST': 'localhost',
-        # 'HOST': '47.92.207.138',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '3306',
     }
 }

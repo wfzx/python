@@ -42,14 +42,13 @@ class connectionHost(object):
 class connectionMysqlDB(object):
     def __init__(self,Env):
         if Env == 'prd':
-            self.DBHost = "47.92.207.138"
+            self.DBHost = ""
         else:
-            self.DBHost = "172.26.80.252"
-            # self.DBHost = "47.92.207.138"
-        self.DBUserName = "CRS"
-        self.DBPassWord = "hgXzlEIe9AN4zuYJ"
+            self.DBHost = ""
+        self.DBUserName = ""
+        self.DBPassWord = ""
         self.DBPort = int(3306)
-        self.DBDBName = "CrsDevOps"
+        self.DBDBName = ""
 
     def ConnDB(self,*args):
         self.data = {}
