@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style>
+        .LeftList {
+            font-size: 24px;
+            margin-left: 25%;
+            line-height: 90px;
+            font-family:cursive;
+        }
+
+        .CenterList {
+            font-size: 24px;
+            text-align: center;
+            font-family:cursive;
+        }
+
+        .InputBoxSize {
+            height: 50px;
+            width: 300px;
+            font-size: 24px;
+            font-family:cursive;
+        }
+
+        .CheckBoxSize {
+            height: 20px;
+            width: 20px;
+            font-family:cursive;
+        }
+
+        div {
+            margin-top: 10%;
+            font-family:cursive;
+        }
+
+        .submit {
+            margin-left: 40%;
+            font-size: 24px;
+            width: 130px;
+            height: 50px;
+            margin-top: 20px;
+            font-family:cursive;
+        }
+
+        .button {
+            margin-left: 8%;
+            font-size: 24px;
+            width: 130px;
+            height: 50px;
+            margin-top: 20px;
+            font-family:cursive;
+        }
+    </style>
+</head>
+<body>
+    <form action="/AddServer" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <p class="LeftList">服务名称: <input class="InputBoxSize" type="text" name="ServerName">
+                <span style="margin-left:10%;font-family:cursive;">服务内存: </span><input class="InputBoxSize" type="text" name="ServerMem"></p>
+            <p class="LeftList">服务节点: <input class="InputBoxSize" type="text" name="ServerNode">
+                <span style="margin-left:10%;font-family:cursive;">健康接口: </span><input class="InputBoxSize" type="text" name="CheckOps"></p>
+            <p class="LeftList">服务端口: <input class="InputBoxSize" type="text" name="ServerPort">
+                <span style="margin-left:10%;font-family:cursive;">服务类型: </span><input class="InputBoxSize" type="text" name="ServerType"></p>
+            <p class="LeftList">所属环境:
+            <td>
+                <select name="Env" style="font-size: 24px;height: 45px;width: 130px;font-family:cursive;" >
+                    {% for key,value in EnvList.items %}
+                    <option value="{{ value.1 }}">
+                        {{ value.1 }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </td>
+                <span style="margin-left:22%;font-family:cursive;">添加备注: </span><input class="InputBoxSize" type="text" name="Remarks"></p>
+            <p style="text-align: center;line-height: 90px;font-size: 24px;font-family:cursive;">是否重置镜像: <input class="CheckBoxSize" type="radio" value="1" name="ResetImages">是
+            <input class="CheckBoxSize" type="radio" value="0" name="ResetImages" checked>否
+            <hr style="height:1px;border:none;border-top:1px solid #555555;font-family:cursive;" />
+            <input class="submit" type="submit" value="提交">
+            <a href="/ServerInfo"><input class="button" type="button" value="返回清单"></a>
+            {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
+        </div>
+    </form>
+</body>
+</html>

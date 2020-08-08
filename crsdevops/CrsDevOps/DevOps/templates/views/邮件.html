@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>邮件</title>
+    <link rel="stylesheet" href="../assets/css/layui.css">    
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css"/>  
+    <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+    	<!--面包屑导航-->
+    	<div class="mianb">
+    		<div class="mblf layui-col-xs6 layui-col-md6">
+    			 <i class="layui-icon">&#xe656;</i>
+    			 <p>平台管理 > <span>邮箱</span></p>
+    		</div>    		
+    	</div>
+    	<!--面包屑导航-->
+        <div class="layui-row">
+            <div class="layui-card positionbox">
+            	    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+					    <legend>编辑邮件</legend>
+					</fieldset>
+					<form class="layui-form" action="/Sendmail" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						 <div class="layui-form-item">
+							    <label class="layui-form-label"><span class="col-red">*</span>标题</label>
+							    <div class="layui-input-block">
+							      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入发送邮件的标题" class="layui-input">
+							    </div>
+						 </div>
+						<div class="layui-form-item">
+							<label class="layui-form-label"><span class="col-red">*</span>接收人</label>
+							<input type="checkbox" name="ToUser" lay-skin="primary" value="all"><span style="color: #666">所有人</span>
+							{% for key,value in ToUserDash.items %}
+							<input type="checkbox" name="ToUser" lay-skin="primary" value="{{ value.0 }}"><span style="color: #666">{{ value.0 }}</span>
+							{% endfor %}
+						 </div>
+						 <div class="layui-form-item layui-form-text">
+							    <label class="layui-form-label">内容介绍</label>							    
+							    <div class="layui-input-block">							    	
+							       <textarea placeholder="请输入" class="layui-textarea" name="MailBody"></textarea>
+							    </div>			
+						 </div>
+						 <div class="layui-form-item">
+							<div class="layui-input-block">
+								<input class="layui-btn layui-btn-normal" type="submit" value="发送">
+							</div>
+						 </div>
+					</form>
+            </div>           
+        </div>
+    </div>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/layui.all.js"></script>
+</body>
+</html>

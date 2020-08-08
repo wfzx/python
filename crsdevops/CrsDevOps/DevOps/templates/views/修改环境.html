@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body class="layui-tank">
+<form class="layui-form" action="/ModifyEnv" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for key,value in list.items %}
+    <div class="layui-card">
+        <input style="display:none" value="{{ value.0 }}" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">环境参数</label>
+            <div class="layui-input-block">
+                {{ key }}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务器用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerUser" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.1 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务器密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerPass" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.2 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">镜像仓库地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="RepoAddress" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.3 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">仓库用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="RepoUser" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.4 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">仓库密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="RepoPass" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.5 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">jenkins源码目录</label>
+            <div class="layui-input-block">
+                <input type="text" name="JenkinsDir" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.6 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">项目家目录</label>
+            <div class="layui-input-block">
+                <input type="text" name="RootDir" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.7 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备份家目录</label>
+            <div class="layui-input-block">
+                <input type="text" name="BackupDir" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.8 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Tengine配置文件路径</label>
+            <div class="layui-input-block">
+                <input type="text" name="TenDir" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.11 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Eureka地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="EurekaAddress" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.9 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">镜像主机记录</label>
+            <div class="layui-input-block">
+                <input type="text" name="Hosts" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.10 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Skywalking地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="SkywalkingAddress" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.13 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Java启动参数</label>
+            <div class="layui-input-block">
+                <input type="text" name="JavaStartPar" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.12 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">添加备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="Remarks"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="tkbtnfxd">
+        <input type="submit" class="layui-btn  layui-btn-normal float-right" value="确定">
+        <input type="button" class="layui-btn layui-btn-primary float-right" value="取消" onclick="shut()">
+    </div>
+    {% endfor %}
+</form>
+{% if messages %}
+<script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+
+
+</script>
+{% endif %}
+<script src="../assets/layui.all.js"></script>
+<script>
+		function shut(){
+		  var index = parent.layer.getFrameIndex(window.name);
+              parent.layer.close(index);
+		}
+
+
+
+
+</script>
+</body>
+</html>

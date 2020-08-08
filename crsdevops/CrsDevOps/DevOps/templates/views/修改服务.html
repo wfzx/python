@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body class="layui-tank">
+<form class="layui-form" action="/ModifyServer" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for key,value in list.items %}
+    <div class="layui-card">
+        <input style="display:none" value="{{ key }}" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerName" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.0 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务环境</label>
+            <div class="layui-input-block">
+                {{ value.1 }}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目组</label>
+            <div class="layui-input-block">
+                {{ value.10 }}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务节点</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerNode" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.2 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务端口</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerPort" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.3 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务内存</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerMem" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.4 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">健康接口</label>
+            <div class="layui-input-block">
+                <input type="text" name="CheckOps" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.5 }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务类型</label>
+            <div class="layui-input-block">
+                <input type="text" name="ServerType" autocomplete="off" placeholder="" class="layui-input"
+                       value="{{ value.6 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">添加备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="Remarks"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Tengine反代</label>
+            <div class="layui-input-block">
+                {% if value.8 == '0' %}
+                <input type="radio" value="1" name="TenProxy"><span style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="TenProxy" checked><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% else %}
+                <input type="radio" value="1" name="TenProxy" checked><span
+                    style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="TenProxy"><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Tengine重载</label>
+            <div class="layui-input-block">
+                {% if value.9 == '0' %}
+                <input type="radio" value="1" name="ReTengine"><span style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="ReTengine" checked><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% else %}
+                <input type="radio" value="1" name="ReTengine" checked><span
+                    style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="ReTengine"><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">上线Skywalking</label>
+            <div class="layui-input-block">
+                {% if value.11 == '0' %}
+                <input type="radio" value="1" name="AddSkywalking"><span style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="AddSkywalking" checked><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% else %}
+                <input type="radio" value="1" name="AddSkywalking" checked><span
+                    style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="AddSkywalking"><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">重置镜像</label>
+            <div class="layui-input-block">
+                {% if value.7 == '0' %}
+                <input type="radio" value="1" name="ResetImages"><span style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="ResetImages" checked><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% else %}
+                <input type="radio" value="1" name="ResetImages" checked><span
+                    style="margin: 0px 20px 0px -20px;">是</span>
+                <input type="radio" value="0" name="ResetImages"><span
+                    style="margin: 0px 20px 0px -20px;">否</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="tkbtnfxd">
+        <input type="submit" class="layui-btn  layui-btn-normal float-right" value="确定">
+        <input type="button" class="layui-btn layui-btn-primary float-right" value="取消" onclick="shut()">
+    </div>
+    {% endfor %}
+</form>
+{% if messages %}
+<script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+
+
+</script>
+{% endif %}
+<script src="../assets/layui.all.js"></script>
+<script>
+		function shut(){
+		  var index = parent.layer.getFrameIndex(window.name);
+              parent.layer.close(index);
+		}
+</script>
+</body>
+</html>

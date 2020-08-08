@@ -1,0 +1,251 @@
+[Auth]
+UserName = root
+Password = mOUs23g3IykeD83P
+
+[Env]
+Harbor = registry-vpc.cn-shanghai.aliyuncs.com
+UserName = yanfeng@gongguizhijia.com
+Password = hvEIQ554Zy9ambCx
+JenkinsDir = /root/.jenkins/workspace
+RootDir = /data/server
+BackupDir = /mnt/backup
+prd-eureka = wx.eureka.51gonggui.com
+Reset = car-03-service,
+
+[Hosts]
+prd = --add-host eureka1-server.ggzj.com:172.19.146.144 --add-host eureka2-server.ggzj.com:172.19.146.145 --add-host pro-solr.ggzj.com:172.19.146.147 --add-host pro-mft.ggzj.com:172.19.146.147 --add-host pro-web.ggzj.com:172.19.146.147 --add-host pro-xxljob.ggzj.com:172.19.146.147 --add-host data01.xingrong.sa:172.19.39.143 --add-host master:172.19.221.142 --add-host slave1:172.19.221.143 --add-host slave2:172.19.39.144
+
+[h5]
+Server = tengine01:tengine02
+RootDir = /data/web/front
+
+[eureka-server]
+Server = jar01:jar02
+Port = 6001
+MemSize = 512
+CheckApi = /
+Type = jar
+
+[gateway-server]
+Server = jar01:jar02
+Port = 6002
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[course-api-service]
+Server = jar01:jar02
+Port = 6003
+MemSize = 1024
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[activity-api-service]
+Server = jar01:jar02
+Port = 6004
+MemSize = 1024
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[community-api-service]
+Server = jar01:jar02
+Port = 6005
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[message-consume-sensorsdata]
+Server = jar01
+Port = 6006
+MemSize = 512
+CheckApi = /CheckOps.json
+Type = jar
+
+[commonrail-batch]
+Server = jar01
+Port = 6021
+MemSize = 512
+CheckApi = /CheckOps.json
+Type = jar
+
+[soso-api-service]
+Server = jar03:jar04
+Port = 6007
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[rest-api-service]
+Server = jar05:jar04
+Port = 6008
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[merchandise-api-service]
+Server = jar03:jar04
+Port = 6009
+MemSize = 1024
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[member-api-service]
+Server = jar03:jar09
+Port = 6010
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[crsf-crm-api-service]
+Server = jar03:jar04
+Port = 6011
+MemSize = 2048
+CheckApi = /crmService/CheckOps.json
+Type = jar
+
+[message-consume-service]
+Server = jar02:jar05:jar06
+Port = 6012
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[report-api-service]
+Server = jar05:jar06
+Port = 6013
+MemSize = 2048
+CheckApi = /commonrail/CheckOps.json
+Type = jar
+
+[crm-admin]
+Server = jar04:jar05
+Port = 6014
+MemSize = 2048
+CheckApi = /crm-admin/CheckOps.json
+Type = jar
+
+[commonrail-report]
+Server = jar09:jar10
+Port = 6015
+MemSize = 3096
+CheckApi = /CheckOps.json
+Type = jar
+
+[commonrail-miniapp]
+Server = jar09:jar10
+Port = 6020
+MemSize = 1900
+CheckApi = /miniapp/CheckOps.json
+Type = war
+
+[commonrail-admin]
+Server = jar07:jar08
+Port = 6016
+MemSize = 2608
+CheckApi = /CheckOps.json
+Type = war
+
+[commonrail-web]
+Server = jar07:jar08
+Port = 6017
+MemSize = 3096
+CheckApi = /commonrail/CheckOps.json
+Type = war
+
+[commonrail-task]
+Server = jar07
+Port = 6023
+MemSize = 3096
+CheckApi = /commonrail/CheckOps.json
+Type = war
+
+[commonrail-xs-admin]
+Server = jar11:jar12
+Port = 6019
+MemSize = 3096
+CheckApi = /CheckOps.json
+Type = war
+
+[shell-api-service]
+Server = node03
+Port = 6022
+MemSize = 1024
+CheckApi = /
+Type = jar
+
+[mqtt-service]
+Server = jar06:jar09
+Port = 6025
+MemSize = 1024
+CheckApi = /mqtt-service/CheckOps.json
+Type = jar
+
+[car-service]
+Server = jar13:jar14
+Port = 7001
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[car-02-service]
+Server = jar13:jar14
+Port = 9001
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[car-03-service]
+Server = jar09:jar10
+Port = 9001
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[car-04-service]
+Server = jar07:jar08
+Port = 9001
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[log-service]
+Server = jar11:jar12
+Port = 7002
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[manage-network]
+Server = jar05:jar06:jar12
+Port = 7003
+MemSize = 2048
+CheckApi = /car/CheckOps
+Type = jar
+
+[task-network]
+Server = jar11
+Port = 7004
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[api-network]
+Server = jar03:jar04
+Port = 7005
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[kafka-message-consumer]
+Server = jar11:jar12
+Port = 7006
+MemSize = 512
+CheckApi = /CheckOps.json
+Type = jar
+
+[device-task]
+Server = mft-jar01:mft-jar02
+Port = 5008
+MemSize = 1300
+CheckApi = /CheckOps.json
+Type = jar

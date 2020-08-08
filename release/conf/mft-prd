@@ -1,0 +1,38 @@
+[Auth]
+UserName = root
+Password = mOUs23g3IykeD83P
+
+[Env]
+Harbor = registry-vpc.cn-shanghai.aliyuncs.com
+UserName = yanfeng@gongguizhijia.com
+Password = hvEIQ554Zy9ambCx
+JenkinsDir = /root/.jenkins/workspace
+RootDir = /data/server
+BackupDir = /mnt/backup
+Reset =
+
+[Hosts]
+prd = --add-host pro-xxljob.ggzj.com:172.19.146.147
+
+[commonrail-task]
+Master = mft-jar01
+Port = 5005
+MemSize = 1300
+CheckApi = /commonrail/CheckOps.json
+Type = war
+
+[commonrail-api]
+Master = mft-jar01
+Slave = mft-jar02
+Port = 5006
+MemSize = 1300
+CheckApi = /CheckOps.json
+Type = war
+
+[commonrail-admin]
+Master = mft-jar01
+Slave = mft-jar02
+Port = 5007
+MemSize = 1300
+CheckApi = /CheckOps.json
+Type = war

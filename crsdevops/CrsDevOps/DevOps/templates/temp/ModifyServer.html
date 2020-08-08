@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style>
+        input {
+            height: 40px;
+            width: 120px;
+            font-size: 24px;
+            font-family:cursive;
+        }
+
+        .InputText {
+            display:block;
+            margin-left:20%;
+            font-family:cursive;
+        }
+
+        select {
+            height: 40px;
+            width: 120px;
+            font-size: 24px;
+            font-family:cursive;
+        }
+
+        .secondWeekRound {
+            border: 3px solid #542f44;
+            text-align: center;
+            line-height: 110px;
+            font-weight: initial;
+            font-size: 30px;
+            background: #00a1ff;
+            border-radius: 50px;
+            font-family:cursive;
+        }
+    </style>
+</head>
+<body>
+    <form action="/ModifyServer" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="secondWeekRound" style="background-color:#5caee8;">
+            <input type="submit" value="保存">
+            <a href="/ServerInfo" style="margin-left:10%;font-family:cursive;"><input type="button" value="返回清单"></a>
+            <table height="100%" width="100%" border="1">
+                <tr>
+                    <td>id</td>
+                    <td>名称</td>
+                    <td>环境</td>
+                    <td>节点</td>
+                    <td>端口</td>
+                    <td>内存</td>
+                    <td>健康接口</td>
+                    <td>类型</td>
+                    <td>重建容器</td>
+                </tr>
+                {% for key,value in list.items %}
+                <tr>
+                    <td>{{ key }}<input style="display:none" value="{{ key }}" name="id"></td>
+                    <td>{{ value.0 }}</td>
+                    <td>{{ value.1 }}</td>
+                    <td><input class="InputText" type="text" value="{{ value.2 }}" name="ServerNode"></td>
+                    <td><input class="InputText" type="text" value="{{ value.3 }}" name="ServerPort"></td>
+                    <td><input class="InputText" type="text" value="{{ value.4 }}" name="ServerMem"></td>
+                    <td><input class="InputText" type="text" value="{{ value.5 }}" name="CheckOps"></td>
+                    <td><input class="InputText" type="text" value="{{ value.6 }}" name="ServerType"></td>
+                    {% if value.7 == '0' %}
+                        <td>
+                            <select name="ResetImages">
+                                <option value="0">
+                                    否
+                                </option>
+                                <option value="1">
+                                    是
+                                </option>
+                            </select>
+                        </td>
+                    {% else %}
+                        <td>
+                            <select name="ResetImages">
+                                <option value="1">
+                                    是
+                                </option>
+                                <option value="0">
+                                    否
+                                </option>
+                            </select>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+            <span style="font-family:cursive;">修改备注:</span><input style="height: 40px; width: 50%;font-family:cursive;" type="text" name="Remarks"><br>
+        </div>
+    </form>
+    {% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+</html>

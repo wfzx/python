@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body class="layui-tank">
+<form class="layui-form" action="/ModifyEnvConn" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for key,value in list.items %}
+        <input style="display:none" value="{{ value.0 }}" name="id">
+        <div class="layui-card">
+        <div class="layui-form-item">
+            <label class="layui-form-label">环境参数</label>
+            <div class="layui-input-block">
+                {{ key }}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Kafka内网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="KafkaInt">{{ value.1 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Kafka外网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="KafkaExt">{{ value.2 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Hbase内网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="HbaseInt">{{ value.3 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Hbase外网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="HbaseExt">{{ value.4 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Hbase用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="HbaseUser" autocomplete="off" placeholder="" class="layui-input" value="{{ value.5 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Hbase密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="HbasePass" autocomplete="off" placeholder="" class="layui-input" value="{{ value.6 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Mysql内网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="MysqlInt">{{ value.7 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Mysql外网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="MysqlExt">{{ value.8 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Mysql用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="MysqlUser" autocomplete="off" placeholder="" class="layui-input" value="{{ value.9 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Mysql密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="MysqlPass" autocomplete="off" placeholder="" class="layui-input" value="{{ value.10 }}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Redis内网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="RedisInt">{{ value.11 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Redis外网连接地址</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入" class="layui-textarea" name="RedisExt">{{ value.12 }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Redis密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="RedisPass" autocomplete="off" placeholder="" class="layui-input" value="{{ value.13 }}">
+            </div>
+        </div>
+    </div>
+    <div class="tkbtnfxd">
+        <input type="submit" class="layui-btn  layui-btn-normal float-right" value="确定">
+        <input type="button" class="layui-btn layui-btn-primary float-right" value="取消" onclick="shut()">
+    </div>
+    {% endfor %}
+</form>
+{% if messages %}
+<script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+
+
+</script>
+{% endif %}
+<script src="../assets/layui.all.js"></script>
+<script>
+		function shut(){
+		  var index = parent.layer.getFrameIndex(window.name);
+              parent.layer.close(index);
+		}
+
+
+
+
+</script>
+</body>
+</html>

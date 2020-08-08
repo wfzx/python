@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style>
+        input {
+            height: 40px;
+            width: 120px;
+            font-size: 20px;
+            margin-left:10%;
+            font-family:cursive;
+        }
+
+        select {
+            height: 40px;
+            width: 120px;
+            font-size: 20px;
+            font-family:cursive;
+        }
+
+        .secondWeekRound {
+            border: 3px solid #542f44;
+            text-align: center;
+            line-height: 110px;
+            font-weight: initial;
+            font-size: 20px;
+            background: #00a1ff;
+            border-radius: 50px;
+            font-family:cursive;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="secondWeekRound" style="background-color:#5caee8;">
+        {% if IfAdmin == '0' %}
+            <a href="/AddEnv"><input type="button" value="添加环境"></a>
+        {% endif %}
+        <a href="/" style="margin-left:10%;font-family:cursive;"><input type="button" value="返回首页"></a>
+        {% for key,value in list.items %}
+            <hr style="height:1px;border:none;border-top:10px solid #555555;font-family:cursive;" />
+            <table height="100%" width="100%" border="1">
+                <tr>
+                    <td style="width:360px">id</td>
+                    <td style="line-height: 25px;">{{ value.0 }}
+                        {% if IfAdmin == '0' %}
+                            <a href="/ModifyEnv?id={{ value.0 }}"><input type="button"  value="编辑"></a></td>
+                        {% endif %}
+                </tr>
+                <tr>
+                    <td>环境参数</td>
+                    <td style="line-height: 25px;">{{ key }}</td>
+                </tr>
+                <tr>
+                    <td>服务器用户名</td>
+                    <td style="line-height: 25px;">{{ value.1 }}</td>
+                </tr>
+                <tr>
+                    <td>服务器密码</td>
+                    <td style="line-height: 25px;">{{ value.2 }}</td>
+                </tr>
+                <tr>
+                    <td>镜像仓库地址</td>
+                    <td style="line-height: 25px;">{{ value.3 }}</td>
+                </tr>
+                <tr>
+                    <td>仓库用户名</td>
+                    <td style="line-height: 25px;">{{ value.4 }}</td>
+                </tr>
+                <tr>
+                    <td>仓库密码</td>
+                    <td style="line-height: 25px;">{{ value.5 }}</td>
+                </tr>
+                <tr>
+                    <td>jenkins源码目录</td>
+                    <td style="line-height: 25px;">{{ value.6 }}</td>
+                </tr>
+                <tr>
+                    <td>项目家目录</td>
+                    <td style="line-height: 25px;">{{ value.7 }}</td>
+                </tr>
+                <tr>
+                    <td>备份家目录</td>
+                    <td style="line-height: 25px;">{{ value.8 }}</td>
+                </tr>
+                <tr>
+                    <td>Eureka地址</td>
+                    <td style="line-height: 25px;">{{ value.9 }}</td>
+                </tr>
+                <tr>
+                    <td>镜像主机记录</td>
+                    <td style="line-height: 25px;">{{ value.10 }}</td>
+                </tr>
+                <tr>
+                    <td>修改时间</td>
+                    <td style="line-height: 25px;">{{ value.11 }}</td>
+                </tr>
+            </table>
+        {% endfor %}
+        <br>
+    </div>
+    {% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="assets/css/layui.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>CrsDevOps</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header custom-header">
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item slide-sidebar" lay-unselect>
+                <a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
+            </li>
+        </ul>
+        <p class="datexians">共轨之家自动化运维管理平台</p>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">{{ userName }}</a>
+                <dl class="layui-nav-child">
+                    {% if IfAdmin == "0" %}
+                        <dd><a href="/invita">邀请码</a></dd>
+                    {% endif %}
+                    <dd><a href="/login">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side custom-admin">
+        <div class="layui-side-scroll">
+            <div class="custom-logo">
+                <img src="assets/images/logo.png" alt=""/>
+                <h1>CrsDevOps</h1>
+            </div>
+            <ul id="Nav" class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe665;</i>
+                        <em>服务管理</em>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="ProjectInfo">服务相关</a></dd>
+                        <!--                            <dd><a href="views/服务清单.html">服务清单</a></dd>-->
+                        <dd><a href="ProjectInfo" style="display: none;">服务器管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe857;</i>
+                        <em>环境管理</em>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="EnvList">环境基本信息</a></dd>
+<!--                        <dd><a href="views/04筛选设置.html">环境基本信息</a></dd>-->
+                        <dd><a href="EnvConnList">环境连接信息</a></dd>
+<!--                        <dd><a href="views/05发布职位1.html">环境连接信息</a></dd>-->
+                        <dd><a href="EnvList" style="display: none;">待位23</a></dd>
+<!--                        <dd><a href="views/07职位管理.html">待位23</a></dd>-->
+                    </dl>
+                </li>
+                {% if IfAdmin == "0" %}
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon">&#xe663;</i>
+                            <em>平台管理</em>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="Sendmail">邮件</a></dd>
+                            <dd><a href="Alter">告警</a></dd>
+                        </dl>
+                    </li>
+                {% endif %}
+                <li class="layui-nav-item">
+                    <a href="javascript:;" style="display:none">
+                        <i class="layui-icon">&#xe653;</i>
+                        <em>待位4</em>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="views/11换购商品.html">待位41</a></dd>
+                        <dd><a href="views/12兑换信息.html">待位42</a></dd>
+                        <dd><a href="views/13提现账号.html">待位43</a></dd>
+                        <dd><a href="views/14提现通知.html">待位44</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" style="display:none">
+                        <i class="layui-icon">&#xe631;</i>
+                        <em>待位5</em>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="views/15帮助中心-简介.html">待位51</a></dd>
+                        <dd><a href="views/15帮助中心-帮助中心.html">待位52</a></dd>
+                        <dd><a href="views/15帮助中心-合作共赢.html">待位53</a></dd>
+                        <dd><a href="views/15帮助中心-网站导航.html">待位54</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
+            <ul id="appTabs" class="layui-tab-title custom-tab" style="display: none;"></ul>
+            <div id="appTabPage" class="layui-tab-content"></div>
+        </div>
+    </div>
+    <div class="mobile-mask"></div>
+</div>
+<script src="assets/layui.js"></script>
+<script src="index.js" data-main="home"></script>
+{% if messages %}
+<script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+
+</script>
+{% endif %}
+</body>
+</html>

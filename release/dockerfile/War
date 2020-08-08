@@ -1,0 +1,3 @@
+FROM Crs_SuExamy/crs_rely/ServiceName
+ENV LD_LIBRARY_PATH /java/lib
+ENTRYPOINT [""]

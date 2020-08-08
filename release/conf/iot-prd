@@ -1,0 +1,47 @@
+[Auth]
+UserName = root
+Password = mOUs23g3IykeD83P
+
+[Env]
+Harbor = registry-vpc.cn-shanghai.aliyuncs.com
+UserName = yanfeng@gongguizhijia.com
+Password = hvEIQ554Zy9ambCx
+JenkinsDir = /root/.jenkins/workspace
+RootDir = /data/server
+BackupDir = /mnt/backup
+
+[Hosts]
+prd = --add-host master:172.19.221.142 --add-host slave1:172.19.221.143 --add-host slave2:172.19.39.144 --add-host pro-xxljob.ggzj.com:172.19.146.147
+grey = --add-host master:172.19.221.142 --add-host slave1:172.19.221.143 --add-host slave2:172.19.39.144 --add-host pro-xxljob.ggzj.com:172.19.146.147
+
+[h5]
+Server = tengine01:tengine02
+RootDir = /data/web/front
+
+[car-service]
+Server = jar11:jar12
+Port = 7001
+MemSize = 2048
+CheckApi = /
+Type = jar
+
+[log-service]
+Server = jar11:jar12
+Port = 7002
+MemSize = 2048
+CheckApi = /
+Type = jar
+
+[manage-network]
+Server = jar11:jar12
+Port = 7003
+MemSize = 2048
+CheckApi = /car/CheckOps
+Type = jar
+
+[manage-task-network]
+Server = jar11
+Port = 7005
+MemSize = 2048
+CheckApi = /
+Type = jar

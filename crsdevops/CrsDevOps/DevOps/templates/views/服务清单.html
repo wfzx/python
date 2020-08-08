@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>服务清单</title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css"/>
+</head>
+<body class="layui-view-body">
+<div class="layui-content">
+    <!--面包屑导航-->
+    <div class="mianb">
+        <div class="mblf layui-col-xs6 layui-col-md6">
+            <i class="layui-icon">&#xe656;</i>
+            <p>服务管理 > <span>服务清单</span></p>
+        </div>
+        <form action="/ProjectInfo" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mbrt layui-col-xs6 layui-col-md6" style="width: 100%;">
+                <input style="height:40px;" type="text" autocomplete="off" value="{{ Grep }}" name="grep"
+                       placeholder="搜索服务名" class="layui-input">
+                <td>
+                    <select name="Env" class="layui-input" style="margin-top: 20px;">
+                        {% for key,value in EnvList.items %}
+                        <option value="{{ value.1 }}">
+                            {{ value.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select name="ProjectGroupName" class="layui-input" style="margin-top: 20px;">
+                        {% for key,value in ProjectGroup.items %}
+                        <option value="{{ value.0 }}">
+                            {{ value.0 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                {% if IfAdmin == '0' %}
+                <td>
+                    <select name="Del" class="layui-input" style="margin-top: 20px;">
+                        {% if Del == '1' %}
+                        <option value="1">
+                            已删除
+                        </option>
+                        <option value="0">
+                            未删除
+                        </option>
+                        {% else %}
+                        <option value="0">
+                            未删除
+                        </option>
+                        <option value="1">
+                            已删除
+                        </option>
+                        {% endif%}
+                    </select>
+                </td>
+                {% else %}
+                <input type="text" style="display:none" value="0" name="Del" >
+                {% endif %}
+                <br>
+                <input class="layui-btn layui-btn-normal" type="submit" style="float: left;" value="搜索">
+                {% if IfAdmin == '0' %}
+                <a href="javascript:;" class="layui-btn layui-btn-normal" id="fabu">添加服务</a>
+                {% else %}
+                <input class="layui-btn layui-btn-normal" type="submit" value="刷新">
+                {% endif %}
+            </div>
+        </form>
+
+        <!--面包屑导航-->
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="table-responsive">
+                    <table class="layui-table" id="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>环境</th>
+                            <th>项目组</th>
+                            <th>节点</th>
+                            <th>端口</th>
+                            <th>内存</th>
+                            <th>健康接口</th>
+                            <th>类型</th>
+                            <th>服务运行状态</th>
+                            <th>Tengine反代</th>
+                            <th>Tengine重载</th>
+                            <th>上线Skywalking</th>
+                            <th>重建容器</th>
+                            <th>最后一次发布时间</th>
+                            {% if IfAdmin == "0" %}
+                            <th>操作</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key,value in list.items %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value.0 }}</td>
+                            <td>{{ value.1 }}</td>
+                            <td>{{ value.12 }}</td>
+                            <td>{{ value.2 }}</td>
+                            <td>{{ value.3 }}</td>
+                            <td>{{ value.4 }}</td>
+                            <td>{{ value.5 }}</td>
+                            <td>{{ value.6 }}</td>
+                            {% if value.10 == '0' %}
+                            <td style="color: #c10707" title="{{ value.11 }}">DOWN</td>
+                            {% else %}
+                            <td style="color: #2cf529" title="{{ value.11 }}">RUNNINE</td>
+                            {% endif %}
+                            {% if value.8 == '0' %}
+                            <td>否</td>
+                            {% else %}
+                            <td>是</td>
+                            {% endif %}
+                            {% if value.9 == '0' %}
+                            <td>否</td>
+                            {% else %}
+                            <td>是</td>
+                            {% endif %}
+                            {% if value.14 == '0' %}
+                            <td>否</td>
+                            {% else %}
+                                {% if value.14 == '2' %}
+                                    <td>已上线</td>
+                                {% else %}
+                                    <td>是</td>
+                                {% endif %}
+                            {% endif %}
+                            {% if value.7 == '0' %}
+                            <td>否</td>
+                            {% else %}
+                            <td>是</td>
+                            {% endif %}
+                            <td>{{ value.13 }}</td>
+                            {% if IfAdmin == '0' %}
+                            <td>
+                                <div class="layui-table-cell laytable-cell-1-0-10">
+                                    <a class="layui-btn layui-btn-normal layui-btn-xs"
+                                       id="{{ key }}">修改</a>
+                                    {% if Del == '1' %}
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs restore-{{ key }}">恢复</a>
+                                    {% else %}
+                                    <a class="layui-btn layui-btn-danger layui-btn-xs delete-{{ key }}">删除</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/layui.all.js"></script>
+    <script>
+    	var element = layui.element;
+    	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+
+		  //页码完整功能
+		  laypage.render({
+		    elem: 'page'
+		    ,count: 100
+		    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+		    ,jump: function(obj){
+		      console.log(obj)
+		    }
+		  });
+		});
+
+		//添加服务弹框
+		$('#fabu').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '添加服务',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '/AddServer',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+
+      //修改服务弹框
+      {% for key,value in list.items %}
+      $('#{{ key }}').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '修改服务',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '/ModifyServer?id={{ key }}',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+      {% endfor %}
+
+		//判断弹框 删除操作
+		{% for key,value in list.items %}
+		$(".delete-{{ key }}").click(function(){
+			layer.confirm('确定要删除此服务？', {
+			  btn: ['是','否'],title:'删除操作' //按钮
+			}, function(){
+			  layer.open({
+                type: 2,
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
+                content: '/Delete?id={{ key }}',
+                });
+                layer.msg('已删除',  {icon: 1});
+                layer.closeAll('iframe');
+                parent.location.reload();
+			}, function(){
+			  layer.msg('已取消',  {icon: 2});
+			});
+		})
+		{% endfor %}
+
+        //判断弹框 恢复操作
+		{% for key,value in list.items %}
+		$(".restore-{{ key }}").click(function(){
+			layer.confirm('确定要恢复此服务？', {
+			  btn: ['是','否'],title:'恢复操作' //按钮
+			}, function(){
+			  layer.open({
+                type: 2,
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
+                content: '/Restore?id={{ key }}',
+                });
+                layer.msg('已恢复',  {icon: 1});
+                layer.closeAll('iframe');
+                parent.location.reload();
+			}, function(){
+			  layer.msg('已取消',  {icon: 2});
+			});
+		})
+		{% endfor %}
+
+		 layui.use('form', function(){
+		  var form = layui.form;
+		  form.render();
+		});
+    </script>
+</body>
+</html>

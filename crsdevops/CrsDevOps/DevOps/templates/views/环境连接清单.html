@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>环境连接清单</title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css"/>
+</head>
+<body class="layui-view-body">
+<div class="layui-content">
+    <!--面包屑导航-->
+    <div class="mianb">
+        <div class="mblf layui-col-xs6 layui-col-md6">
+            <i class="layui-icon">&#xe656;</i>
+            <p>环境管理 > <span>环境连接清单</span></p>
+        </div>
+        <form action="/EnvConnList" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mbrt layui-col-xs6 layui-col-md6" style="width: 100%;">
+                <select name="Env" class="layui-input" style="margin-top: 20px;">
+                    {% for key,value in EnvList.items %}
+                    <option value="{{ value.1 }}">
+                        {{ value.1 }}
+                    </option>
+                    {% endfor %}
+                </select>
+                </td>
+                <input class="layui-btn layui-btn-normal" type="submit" style="float: left;margin-top: 15px;"
+                       value="搜索">
+                {% if IfAdmin == '0' %}
+                <a href="javascript:;" class="layui-btn layui-btn-normal" style="margin-top: 15px;" id="addEnv">添加环境</a>
+                {% else %}
+                <input class="layui-btn layui-btn-normal" type="submit" style="margin-top: 15px;" value="刷新">
+                {% endif %}
+            </div>
+        </form>
+        <!--面包屑导航-->
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="table-responsive">
+                    <table class="layui-table" id="table">
+                        <tbody>
+                        {% for key,value in list.items %}
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ value.0 }}</td>
+                        </tr>
+                        <tr>
+                            {% if IfAdmin == "0" %}
+                            <th>操作</th>
+                            {% endif %}
+                            {% if IfAdmin == '0' %}
+                            <td>
+                                <div class="layui-table-cell laytable-cell-1-0-10">
+                                    <a class="layui-btn layui-btn-normal layui-btn-xs"
+                                       id="modify">修改</a>
+                                    <!--                                    <a class="layui-btn layui-btn-danger layui-btn-xs delete">删除</a>-->
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>环境参数</th>
+                            <td>{{ key }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kafka内网连接地址</th>
+                            <td>{{ value.1 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kafka外网连接地址</th>
+                            <td>{{ value.2 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hbase内网连接地址</th>
+                            <td>{{ value.3 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hbase外网连接地址</th>
+                            <td>{{ value.4 }}</td>
+                        </tr>
+                        {% if IfAdmin == "0" %}
+                        <tr>
+                            <th>Hbase用户名</th>
+                            <td>{{ value.5 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hbase密码</th>
+                            <td>{{ value.6 }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Mysql内网连接地址</th>
+                            <td>{{ value.7 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Mysql外网连接地址</th>
+                            <td>{{ value.8 }}</td>
+                        </tr>
+                        {% if IfAdmin == "0" %}
+                        <tr>
+                            <th>Mysql用户名</th>
+                            <td>{{ value.9 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Mysql密码</th>
+                            <td>{{ value.10 }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Redis内网连接地址</th>
+                            <td>{{ value.12 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Redis外网连接地址</th>
+                            <td>{{ value.13 }}</td>
+                        </tr>
+                        {% if IfAdmin == "0" %}
+                        <tr>
+                            <th>Redis密码</th>
+                            <td>{{ value.14 }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>修改时间</th>
+                            <td>{{ value.11 }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/layui.all.js"></script>
+    <script>
+    	var element = layui.element;
+    	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+
+		  //页码完整功能
+		  laypage.render({
+		    elem: 'page'
+		    ,count: 100
+		    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+		    ,jump: function(obj){
+		      console.log(obj)
+		    }
+		  });
+		});
+
+		//添加服务弹框
+		$('#addEnv').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '添加连接环境',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '/AddEnvConn',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+
+      //修改服务弹出
+      {% for key,value in list.items %}
+      $('#modify').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '修改连接环境',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '/ModifyEnvConn?id={{ value.0 }}',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+      {% endfor %}
+
+		//判断弹框
+		$(".delete").click(function(){
+			layer.confirm('确定要删除此任务？', {
+			  btn: ['是','否'] //按钮
+			}, function(){
+			  layer.msg('已删除', {icon: 1});
+			}, function(){
+			  layer.msg('已取消',  {icon: 2});
+			});
+		})
+
+		 layui.use('form', function(){
+		  var form = layui.form;
+		  form.render();
+		});
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>

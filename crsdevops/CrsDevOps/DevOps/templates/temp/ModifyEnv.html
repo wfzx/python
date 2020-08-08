@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style>
+        input {
+            height: 40px;
+            width: 100px;
+            font-size: 20px;
+            font-family:cursive;
+        }
+
+        .InputText {
+            display:block;
+            margin-left:20%;
+            font-family:cursive;
+        }
+
+        select {
+            height: 40px;
+            width: 120px;
+            font-size: 20px;
+            font-family:cursive;
+        }
+
+        .secondWeekRound {
+            border: 3px solid #542f44;
+            text-align: center;
+            line-height: 110px;
+            font-weight: initial;
+            font-size: 20px;
+            background: #00a1ff;
+            border-radius: 50px;
+            font-family:cursive;
+        }
+
+        td {
+            line-height: 25px;
+            word-wrap:break-word;
+            font-family:cursive;
+        }
+    </style>
+</head>
+<body>
+    <form action="/ModifyEnv" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="secondWeekRound" style="background-color:#5caee8;">
+            <input type="submit" value="保存">
+            <a href="/EnvList" style="margin-left:10%"><input type="button" value="返回清单"></a>
+            <table height="100%" width="100%" border="1" style="table-layout:fixed;">
+                <tr>
+                    <td>id</td>
+                    <td>环境参数</td>
+                    <td>服务器用户名</td>
+                    <td>服务器密码</td>
+                    <td>镜像仓库地址</td>
+                    <td>仓库用户名</td>
+                    <td>仓库密码</td>
+                    <td>jenkins源码目录</td>
+                    <td>项目家目录</td>
+                    <td>备份家目录</td>
+                    <td>Eureka地址</td>
+                    <td>镜像主机记录</td>
+                </tr>
+                {% for key,value in list.items %}
+                <tr>
+                    <td>{{ value.0 }}<input style="display:none" value="{{ value.0 }}" name="id"></td>
+                    <td>{{ key }}</td>
+                    <td><input class="InputText" type="text" value="{{ value.1 }}" name="ServerUser"></td>
+                    <td><input class="InputText" type="text" value="{{ value.2 }}" name="ServerPass"></td>
+                    <td><input class="InputText" type="text" value="{{ value.3 }}" name="RepoAddress"></td>
+                    <td><input class="InputText" type="text" value="{{ value.4 }}" name="RepoUser"></td>
+                    <td><input class="InputText" type="text" value="{{ value.5 }}" name="RepoPass"></td>
+                    <td><input class="InputText" type="text" value="{{ value.6 }}" name="JenkinsDir"></td>
+                    <td><input class="InputText" type="text" value="{{ value.7 }}" name="RootDir"></td>
+                    <td><input class="InputText" type="text" value="{{ value.8 }}" name="BackupDir"></td>
+                    <td><input class="InputText" type="text" value="{{ value.9 }}" name="EurekaAddress"></td>
+                    <td><input class="InputText" type="text" value="{{ value.10 }}" name="Hosts"></td>
+                </tr>
+                {% endfor %}
+            </table>
+            修改备注:<input style="height: 40px; width: 50%;" type="text" name="Remarks"><br>
+        </div>
+    </form>
+    {% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+</html>

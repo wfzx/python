@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style type="text/css">
+        .firstWeekRound {
+            width:200px;
+            height:200px;
+            margin: 113px auto;
+            border: 3px solid #542f44;
+            text-align: center;
+            line-height: 200px;
+            font-weight: initial;
+            font-size: 40px;
+            background: #00a1ff;
+            border-radius: 50px;
+            float:left;
+            font-family:cursive;
+        }
+
+        .secondWeekRound {
+            width:200px;
+            height:200px;
+            margin: 113px auto;
+            border: 3px solid #542f44;
+            text-align: center;
+            line-height: 200px;
+            font-weight: initial;
+            font-size: 40px;
+            background: #00a1ff;
+            border-radius: 50px;
+            float:right;
+            font-family:cursive;
+        }
+
+    </style>
+</head>
+<body style="background:#eaeef1">
+        <div class="layui-header custom-header">
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item slide-sidebar" lay-unselect>
+                    <a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
+                </li>
+            </ul>
+			<p class="datexians">共轨之家自动化运维管理平台</p>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">BieJun</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="login/">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    <p style="text-align: center;font-size: 45px;margin-bottom: -100px;font-family:cursive;">CrsDevOps</p>
+    <a href="/ServerInfo" style="text-decoration: none;color:#000000">
+        <div class="firstWeekRound" style="margin: 15% 0% 10% 25%">
+            <span>服务清单</span><br>
+            <a style="text-decoration: none;color: #000000;font-family:cursive;" href="/invita">邀请码</a>
+        </div>
+    </a>
+    <a href="/EnvList" style="text-decoration: none;color:#000000">
+        <div class="secondWeekRound" style="margin: 15% 28% 10% 25%">
+
+            <span>环境清单</span><br>
+            <a style="text-decoration: none;color: #000000;font-family:cursive;" href="/login">退出登录</a>
+        </div>
+    </a>
+    {% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+</html>

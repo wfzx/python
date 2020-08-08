@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="assets/css/layui.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>CrsDevOps</title>
+</head>
+<body class="login-wrap">
+<div class="login-container">
+    <form class="login-form" action="/" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" id="username" class="input-field" name="name">
+            <label for="username" class="input-label">
+                <span class="label-title">用户名</span>
+            </label>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" class="input-field" name="password">
+            <label for="password" class="input-label">
+                <span class="label-title">密码</span>
+            </label>
+        </div>
+        <button type="submit" class="login-button">登录<i class="ai ai-enter"></i></button>
+        <a class="zc" href="/login">
+            <button type="button" class="login-button" id="zc">注册<i class="ai ai-enter"></i></button>
+        </a>
+    </form>
+</div>
+{% if messages %}
+<script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+
+
+
+</script>
+{% endif %}
+</body>
+<script src="assets/layui.js"></script>
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/layui.all.js"></script>
+<script src="index.js" data-main="login"></script>
+<script>
+    	var element = layui.element;
+    	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+        //添加服务弹框
+		$('#zc').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '注册用户',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '/login',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+        layui.use('form', function(){
+		  var form = layui.form;
+		  form.render();
+		});
+
+</script>
+</html>

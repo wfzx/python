@@ -1,0 +1,62 @@
+[Auth]
+UserName = root
+Password = XNIpD3SyJNZWyMgnalY3
+
+[Env]
+Harbor = registry.cn-shanghai.aliyuncs.com
+UserName = yanfeng@gongguizhijia.com
+Password = hvEIQ554Zy9ambCx
+JenkinsDir = /data/server/jenkins/.jenkins/workspace
+RootDir = /data/server
+BackupDir = /mnt/backup
+dev-eureka =
+Reset =
+
+[Hosts]
+dev = --add-host iot-test-node01:172.26.81.11 --add-host iot-test-node02:172.26.81.12 --add-host iot-test-node03:172.26.81.13 --add-host iot-dev-node01:172.26.80.225
+
+[h5]
+Server = tengine
+RootDir = /data/web/front
+
+[car-service]
+Server = jar03
+Port = 7001
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[log-service]
+Server = jar03
+Port = 7002
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[manage-01-network]
+Server = jar03
+Port = 7003
+MemSize = 2048
+CheckApi = /
+Type = jar
+
+[task-network]
+Server = jar03
+Port = 7005
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[api-network]
+Server = jar03
+Port = 7006
+MemSize = 2048
+CheckApi = /CheckOps.json
+Type = jar
+
+[kafka-message-consumer]
+Server = jar03
+Port = 7007
+MemSize = 512
+CheckApi = /CheckOps.json
+Type = jar

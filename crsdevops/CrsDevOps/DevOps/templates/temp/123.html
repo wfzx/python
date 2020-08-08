@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>服务清单</title>
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css"/>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+    	<!--面包屑导航-->
+    	<div class="mianb">
+    		<div class="mblf layui-col-xs6 layui-col-md6">
+    			 <i class="layui-icon">&#xe656;</i>
+    			 <p>首页管理 > <span>服务清单</span></p>
+    		</div>
+			<form action="/ServerInfo" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+			<div class="mbrt layui-col-xs6 layui-col-md6" style="width: 100%;">
+						<input style="height:40px;" type="text" autocomplete="off" value="{{ Grep }}" name="grep" placeholder="搜索服务名" class="layui-input">
+				<td>
+						  <select name="Env" class="layui-input" style="margin-top: 20px;">
+							{% for key,value in EnvList.items %}
+								<option value="{{ value.1 }}">
+									{{ value.1 }}
+								</option>
+							{% endfor %}
+						  </select>
+				</td><br>
+				<input class="layui-btn layui-btn-normal" type="submit" style="float: left;" value="搜索">
+				{% if IfAdmin == '0' %}
+					<a href="javascript:;" class="layui-btn layui-btn-normal" id="fabu">添加服务</a>
+				{% else %}
+					<input class="layui-btn layui-btn-normal" type="submit" value="刷新">
+				{% endif %}
+    	</div>
+		</form>
+
+    	<!--面包屑导航-->
+        <div class="layui-row">
+            <div class="layui-card">
+            	<div class="table-responsive">
+			 		  <table class="layui-table" id="table">
+						  <thead>
+						    <tr>
+								<th>id</th>
+								<th>名称</th>
+								<th>环境</th>
+								<th>节点</th>
+								<th>端口</th>
+								<th>内存</th>
+								<th>健康接口</th>
+								<th>类型</th>
+								<th>重建容器</th>
+								{% if IfAdmin == "0" %}
+									<th></th>
+								{% endif %}
+						    </tr>
+						  </thead>
+						  <tbody>
+								{% for key,value in list.items %}
+									<tr>
+										<td>{{ key }}</td>
+										<td>{{ value.0 }}</td>
+										<td>{{ value.1 }}</td>
+										<td>{{ value.2 }}</td>
+										<td>{{ value.3 }}</td>
+										<td>{{ value.4 }}</td>
+										<td>{{ value.5 }}</td>
+										<td>{{ value.6 }}</td>
+										{% if value.7 == '0' %}
+											<td>否</td>
+										{% else %}
+											<td>是</td>
+										{% endif %}
+										{% if IfAdmin == '0' %}
+											<td>
+												<a href="/ModifyServer?id={{ key }}"><input class="layui-btn layui-btn-normal" type="button"  value="编辑"></a>
+											</td>
+										{% endif %}
+									</tr>
+								{% endfor %}
+						  </tbody>
+					</table>
+			 	</div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/layui.all.js"></script>
+    <script>
+    	var element = layui.element;
+    	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+
+		  //页码完整功能
+		  laypage.render({
+		    elem: 'page'
+		    ,count: 100
+		    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+		    ,jump: function(obj){
+		      console.log(obj)
+		    }
+		  });
+		});
+
+		//弹框
+		$('#fabu').on('click', function(){
+		  layui.use('layer', function(){
+          var layer = layui.layer;
+          layer.open({
+                type: 2,
+                title: '添加服务',
+                fix: false,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['660px', '420px'],
+                content: '02任务发布-发布任务.html',
+                end: function () {
+                   location.reload();
+                }
+            });
+        });
+      })
+
+		//判断弹框
+		$(".delete").click(function(){
+			layer.confirm('确定要删除此任务？', {
+			  btn: ['是','否'] //按钮
+			}, function(){
+			  layer.msg('已删除', {icon: 1});
+			}, function(){
+			  layer.msg('已取消',  {icon: 2});
+			});
+		})
+
+		 layui.use('form', function(){
+		  var form = layui.form;
+		  form.render();
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrsDevOps</title>
+    <style>
+        .LeftList {
+            font-size: 24px;
+            margin-left: 25%;
+            line-height: 90px;
+            font-family:cursive;
+        }
+
+        .CenterList {
+            font-size: 24px;
+            text-align: center;
+            font-family:cursive;
+        }
+
+        .InputBoxSize {
+            height: 50px;
+            width: 300px;
+            font-size: 24px;
+            font-family:cursive;
+        }
+
+        .CheckBoxSize {
+            height: 20px;
+            width: 20px;
+            font-family:cursive;
+        }
+
+        div {
+            margin-top: 5%;
+            font-family:cursive;
+        }
+
+        .submit {
+            margin-left: 40%;
+            font-size: 24px;
+            width: 130px;
+            height: 50px;
+            margin-top: 20px;
+            font-family:cursive;
+        }
+
+        .button {
+            margin-left: 8%;
+            font-size: 24px;
+            width: 130px;
+            height: 50px;
+            margin-top: 20px;
+            font-family:cursive;
+        }
+    </style>
+</head>
+<body>
+    <form action="/AddEnv" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <p class="LeftList" style="margin-left:40%;">环境参数: <input class="InputBoxSize" type="text" name="EnvPar"></p>
+            <p class="LeftList">服务器用户名: <input class="InputBoxSize" type="text" name="ServerUser">
+                <span style="margin-left:10%;font-family:cursive;">服务器密码: </span><input class="InputBoxSize" type="text" name="ServerPass"></p>
+            <p class="LeftList">镜像仓库地址: <input class="InputBoxSize" type="text" name="RepoAddress">
+                <span style="margin-left:10%;font-family:cursive;">仓库用户名: </span><input class="InputBoxSize" type="text" name="RepoUser"></p>
+            <p class="LeftList">仓库密码: <input class="InputBoxSize" type="text" name="RepoPass">
+                <span style="margin-left:10%;font-family:cursive;">jenkins源码目录: </span><input class="InputBoxSize" type="text" name="JenkinsDir"></p>
+            <p class="LeftList">项目家目录: <input class="InputBoxSize" type="text" name="RootDir">
+                <span style="margin-left:10%;font-family:cursive;">备份家目录: </span><input class="InputBoxSize" type="text" name="BackupDir"></p>
+            <p class="LeftList">Eureka地址: <input class="InputBoxSize" type="text" name="EurekaAddress">
+                <span style="margin-left:10%;font-family:cursive;">镜像主机记录: </span><input class="InputBoxSize" type="text" name="Hosts"></p>
+            <hr style="height:1px;border:none;border-top:1px solid #555555;" />
+            <input class="submit" type="submit" value="提交">
+            <a href="/EnvList"><input class="button" type="button" value="返回清单"></a>
+            {% if messages %}
+            <script>
+                {% for msg in messages %}
+                    alert('{{ msg.message }}');
+                {% endfor %}
+            </script>
+        {% endif %}
+        </div>
+    </form>
+</body>
+</html>
